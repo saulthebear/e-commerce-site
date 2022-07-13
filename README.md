@@ -10,17 +10,12 @@ I have some familiarity with Typescript and would like to dive deeper by creatin
 
 ## Technology
 
-- MongoDb, Express, React, Node
+- Familiar technology: MongoDb, Express, React, Node, React Router, TailwindCSS
 - Backend and frontend written in **TypeScript**.
 - Follow a **TDD** approach, using **Jest** for unit testing and **Storybook** for visual testing.
 - Stretch goal technologies:
   - APIs: **Stripe**, **Twilio**
   - Progressive Web App (**PWA**)
-
-## Potential Roadblocks
-
-- Learning TypeScript might take a long time
-- Using Jest and Storybook for testing might take a long time
 
 ## User Stories
 
@@ -41,6 +36,34 @@ I have some familiarity with Typescript and would like to dive deeper by creatin
   - As an admin, I want to receive notifications when a new order is placed.
   - As an admin, I want to be able to view all orders.
   - As an admin, I want to receive a notification when an item is out of stock.
+
+## Daily Sprints
+
+- Wednesday, July 13th
+  - Study TypeScript
+  - Study Auth strategies
+- Thursday, July 14th
+  - Implement MongoDB schema
+  - Implement API routes
+  - Test routes with Postman
+- Friday, July 15th
+  - Implement basic frontend (functionality without styling)
+- Saturday, July 16th
+  - Design frontend in Figma
+  - Create UI components
+  - Test UI components with Storybook
+- Sunday, July 17th
+  - Build frontend with UI components
+  - Implement Auth
+- Monday, July 18th
+  - Build Admin dashboard
+  - Implement Stripe API integration
+- Tuesday, July 19th
+
+## Potential Roadblocks
+
+- Learning TypeScript might take a long time
+- Using Jest and Storybook for testing might take a long time
 
 ## Database Schema
 
@@ -131,3 +154,9 @@ DELETE /api/products/:id/reviews/:id
 ![Navigation](./wireframes/menu.png)
 ![Cart](./wireframes/cart.png)
 ![Product Page](./wireframes/product.png)
+
+- Extra time to complete unfinished tasks
+- Stretch goals:
+  - Implement stock tracking
+  - Implement notifications with Twilio API integration
+  - Implement PWA (caching and offline functionality)
