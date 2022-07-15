@@ -1,9 +1,13 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import AuthRoute from './components/AuthRoute';
-import Loading from './components/loading';
+import Loading from './components/Loading';
 import routes from './config/routes';
-import { initialUserState, UserContextProvider, userReducer } from './contexts/user';
+import {
+  initialUserState,
+  UserContextProvider,
+  userReducer,
+} from './contexts/user';
 
 export interface IAppProps {}
 
