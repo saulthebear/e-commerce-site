@@ -1,5 +1,9 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider } from 'firebase/auth';
+import {
+  getAuth,
+  GoogleAuthProvider,
+  connectAuthEmulator,
+} from 'firebase/auth';
 import config from './config';
 
 // Initialize Firebase
@@ -11,6 +15,8 @@ const providers = {
 
 // Initialize Firebase Auth and get a reference to the auth service
 const auth = getAuth(firebaseApp);
+// TODO: Remove this line for production
+// connectAuthEmulator(auth, 'http://localhost:9099');
 
 const firebaseServices = {
   firebaseApp,

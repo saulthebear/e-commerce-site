@@ -33,24 +33,26 @@ const LoginPage: React.FC<IPage> = () => {
       );
       console.log(result);
       const user = result.user;
-      const uid = user.uid;
-      const name = user.displayName;
-      if (name) {
+      if (user.uid && user.displayName && user.email) {
         try {
           const fire_token = await user.getIdToken();
           // TODO: If we get a token, validate it against the server
-          Authenticate(uid, name, fire_token, (error, _user) => {
-            if (error || !_user) {
-              logging.error(error);
-              setError(error ? error : 'Unknown error');
-            } else {
-              userContext.userDispatch({
-                type: 'LOGIN',
-                payload: { user: _user, fire_token },
-              });
-              navigate('/');
+          Authenticate(
+            { uid: user.uid, name: user.displayName, email: user.email },
+            fire_token,
+            (error, _user) => {
+              if (error || !_user) {
+                logging.error(error);
+                setError(error ? error : 'Unknown error');
+              } else {
+                userContext.userDispatch({
+                  type: 'LOGIN',
+                  payload: { user: _user, fire_token },
+                });
+                navigate('/');
+              }
             }
-          });
+          );
         } catch (error) {
           setError('Invalid token');
           logging.error(error);

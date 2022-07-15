@@ -9,18 +9,14 @@ export const SignInWithSocial = (provider: auth.AuthProvider) =>
   signInWithPopup(firebaseServices.auth, provider);
 
 export const Authenticate = async (
-  uid: string,
-  name: string,
+  user: { uid: string; name: string; email: string },
   fire_token: string,
   callback: (error: string | null, user: IUser | null) => void
 ) => {
   try {
     const response = await axios.post(
       `${config.server.url}/users/login`,
-      {
-        uid,
-        name,
-      },
+      user,
       {
         headers: {
           Authorization: `Bearer ${fire_token}`,
