@@ -2,12 +2,14 @@ import React, { useEffect, useReducer, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import AuthRoute from './components/AuthRoute';
 import Loading from './components/Loading';
+import logging from './config/logging';
 import routes from './config/routes';
 import {
   initialUserState,
   UserContextProvider,
   userReducer,
 } from './contexts/user';
+import { Validate } from './modules/auth';
 
 export interface IAppProps {}
 
@@ -41,10 +43,26 @@ const App: React.FC<IAppProps> = () => {
       }, 1000);
     } else {
       // TODO: validate the token against the server
-      setAuthStage('Credentials found, validating ....');
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
+      // setAuthStage('Credentials found, validating ....');
+      // setTimeout(() => {
+      //   setLoading(false);
+      // }, 1000);
+      return Validate(fire_token, (error, user) => {
+        if (error) {
+          setAuthStage('Credentials found, but invalid Logging out...');
+          logging.error(error);
+          userDispatch({ type: 'LOGOUT', payload: initialUserState });
+          setTimeout(() => {
+            setLoading(false);
+          }, 1000);
+        } else if (user) {
+          setAuthStage('Credentials found, valid. Logging in...');
+          userDispatch({ type: 'LOGIN', payload: { user, fire_token } });
+          setTimeout(() => {
+            setLoading(false);
+          }, 1000);
+        }
+      });
     }
   };
 

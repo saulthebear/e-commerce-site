@@ -3,12 +3,11 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Error from '../components/Error';
 import Loading from '../components/Loading';
-import Success from '../components/Success';
 import firebaseServices from '../config/firebase';
 import logging from '../config/logging';
 import UserContext from '../contexts/user';
 import IPage from '../interfaces/page';
-import { SignInWithSocial as SocialPopup } from '../modules/auth';
+import { Authenticate, SignInWithSocial as SocialPopup } from '../modules/auth';
 
 const LoginPage: React.FC<IPage> = () => {
   const [authenticating, setAuthenticating] = useState(false);
@@ -40,6 +39,18 @@ const LoginPage: React.FC<IPage> = () => {
         try {
           const fire_token = await user.getIdToken();
           // TODO: If we get a token, validate it against the server
+          Authenticate(uid, name, fire_token, (error, _user) => {
+            if (error || !_user) {
+              logging.error(error);
+              setError(error ? error : 'Unknown error');
+            } else {
+              userContext.userDispatch({
+                type: 'LOGIN',
+                payload: { user: _user, fire_token },
+              });
+              navigate('/');
+            }
+          });
         } catch (error) {
           setError('Invalid token');
           logging.error(error);
