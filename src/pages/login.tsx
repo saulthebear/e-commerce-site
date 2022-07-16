@@ -53,6 +53,7 @@ const LoginPage: React.FC<IPage> = () => {
               }
             }
           );
+          setAuthenticating(false);
         } catch (error) {
           setError('Invalid token');
           logging.error(error);
