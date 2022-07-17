@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const DEFAULT_NAMESPACE = 'Client';
 
 const createLog = (
