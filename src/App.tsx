@@ -2,6 +2,7 @@ import React, { useEffect, useReducer, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import AuthRoute from './components/AuthRoute';
 import Loading from './components/Loading';
+import Navbar from './components/Navbar';
 import logging from './config/logging';
 import routes from './config/routes';
 import {
@@ -9,7 +10,7 @@ import {
   UserContextProvider,
   userReducer,
 } from './contexts/user';
-import { Validate } from './modules/auth';
+import { Validate } from './API/auth';
 
 export interface IAppProps {}
 
@@ -77,6 +78,7 @@ const App: React.FC<IAppProps> = () => {
 
   return (
     <UserContextProvider value={userContextValues}>
+      <Navbar />
       <Routes>
         {routes.map((route, index) => {
           let element = route.element;

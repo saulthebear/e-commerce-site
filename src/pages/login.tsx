@@ -7,7 +7,7 @@ import firebaseServices from '../config/firebase';
 import logging from '../config/logging';
 import UserContext from '../contexts/user';
 import IPage from '../interfaces/page';
-import { Authenticate, SignInWithSocial as SocialPopup } from '../modules/auth';
+import { Authenticate, SignInWithSocial as SocialPopup } from '../API/auth';
 
 const LoginPage: React.FC<IPage> = () => {
   const [authenticating, setAuthenticating] = useState(false);
