@@ -1,13 +1,20 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import UserContext, { initialUserState } from '../../contexts/user';
 import { MdMenu, MdSearch } from 'react-icons/md';
 import { BsCart3 } from 'react-icons/bs';
 import Sidebar from './Sidebar';
+import { getCategories } from '../../API/categories';
+import logging from '../../config/logging';
+import { ICategoryDocument } from '../../interfaces/product';
 
 const dummy_sidebar_items = [
-  'Item 1',
-  'Item 2',
+  <Link to="/" key={'sidebar-home'}>
+    Home
+  </Link>,
+  <Link to="/categories/1" key={'sidebar-category-1'}>
+    Category 1
+  </Link>,
   'Item 3',
   'Item 4',
   'Item 5',
@@ -19,10 +26,12 @@ const dummy_sidebar_items = [
 export interface INavbarDisplayProps {
   isLoggedIn: boolean;
   logoutHandler: () => void;
+  items: React.ReactNode[];
 }
 export const NavbarDisplay: React.FC<INavbarDisplayProps> = ({
   isLoggedIn,
   logoutHandler,
+  items,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -33,7 +42,7 @@ export const NavbarDisplay: React.FC<INavbarDisplayProps> = ({
       <Sidebar
         isOpen={isOpen}
         toggleSidebar={toggleSidebar}
-        items={dummy_sidebar_items}
+        items={items}
         isLoggedIn={isLoggedIn}
         logoutHandler={logoutHandler}
       />
@@ -68,6 +77,26 @@ const Navbar: React.FC<INavbarProps> = () => {
   const userContext = useContext(UserContext);
   const { user } = userContext.userState;
 
+  const [categories, setCategories] = useState<ICategoryDocument[]>([]);
+
+  useEffect(() => {
+    // Get categories from the server
+    const fetchCategories = async () => {
+      const data: { count: number; categories: ICategoryDocument[] } =
+        await getCategories();
+      setCategories(data.categories);
+    };
+    fetchCategories();
+  }, []);
+
+  const sidebar_items = categories.map((category) => {
+    return (
+      <Link to={`/categories/${category._id}`} key={category._id}>
+        {category.title}
+      </Link>
+    );
+  });
+
   const Logout = () => {
     userContext.userDispatch({
       type: 'LOGOUT',
@@ -77,7 +106,13 @@ const Navbar: React.FC<INavbarProps> = () => {
 
   const isLoggedIn = user.uid !== '';
 
-  return <NavbarDisplay isLoggedIn={isLoggedIn} logoutHandler={Logout} />;
+  return (
+    <NavbarDisplay
+      isLoggedIn={isLoggedIn}
+      logoutHandler={Logout}
+      items={sidebar_items}
+    />
+  );
 };
 
 export default Navbar;
