@@ -57,7 +57,8 @@ const App: React.FC<IAppProps> = () => {
 
   return (
     <UserContextProvider value={userContextValues}>
-      <Navbar />
+      <div className="h-full">
+        <Navbar />
         <div className="bg-yellow-300 relative top-navbar-height h-full p-5">
           <Routes>
             {routes.map((route, index) => {
@@ -70,6 +71,7 @@ const App: React.FC<IAppProps> = () => {
             })}
           </Routes>
         </div>
+      </div>
     </UserContextProvider>
   );
 };
