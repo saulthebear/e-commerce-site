@@ -3,6 +3,7 @@ import IRoute from '../interfaces/routes';
 import HomePage from '../pages/Home';
 import LoginPage from '../pages/Login';
 import ProductPage from '../pages/Product';
+import CategoryPage from '../pages/Category';
 import AdminDashboard from '../pages/Admin/AdminDashboard';
 import AdminCategories from '../pages/Admin/AdminCategories';
 import AdminProducts from '../pages/Admin/AdminProducts';
@@ -36,6 +37,12 @@ const mainRoutes: IRoute[] = [
     auth: false,
     name: 'Product',
     element: <ProductPage />,
+  },
+  {
+    path: '/category/:id',
+    auth: false,
+    name: 'Category',
+    element: <CategoryPage />,
   },
 ];
 

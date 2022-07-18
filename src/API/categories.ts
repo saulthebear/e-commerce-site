@@ -30,6 +30,11 @@ export const getCategories = async () => {
   return response.json();
 };
 
+export const getCategory = async (id: string) => {
+  const response = await fetch(`${config.server.url}/categories/${id}`);
+  return response.json();
+};
+
 export const updateCategory = async (
   id: string,
   body: Partial<ICategoryBody>,

@@ -19,6 +19,13 @@ export const getProducts = async () => {
   return response.json();
 };
 
+export const getProductsByCategory = async (categoryId: string) => {
+  const response = await fetch(
+    `${config.server.url}/products/category/${categoryId}`
+  );
+  return response.json();
+};
+
 export const getProduct = async (id: string) => {
   const response = await fetch(`${config.server.url}/products/${id}`);
   return response.json();

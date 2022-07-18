@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getProducts } from '../API/products';
+import ProductsList from '../components/Product/ProductsList';
 import ProductTile from '../components/Product/ProductTile';
 import logging from '../config/logging';
 import IPage from '../interfaces/page';
@@ -60,18 +61,10 @@ const HomePage: React.FC<IPage> = () => {
   //   fetchProducts();
   // }, []);
 
-  const productList = products.map((product) => {
-    return (
-      <Link to={`/products/${product._id}`} key={product._id}>
-        <ProductTile product={product} />
-      </Link>
-    );
-  });
-
   return (
     <>
-      <h1>Home page</h1>
-      {productList}
+      <h1>All Products</h1>
+      <ProductsList products={products} />
     </>
   );
 };
