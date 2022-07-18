@@ -3,7 +3,11 @@ import IRoute from '../interfaces/routes';
 import HomePage from '../pages/Home';
 import LoginPage from '../pages/Login';
 import ProductPage from '../pages/Product';
+import AdminDashboard from '../pages/Admin/AdminDashboard';
+import AdminCategories from '../pages/Admin/AdminCategories';
+import AdminProducts from '../pages/Admin/AdminProducts';
 
+// Require login
 const authRoutes: IRoute[] = [
   {
     path: 'login',
@@ -19,6 +23,7 @@ const authRoutes: IRoute[] = [
   },
 ];
 
+// No login required
 const mainRoutes: IRoute[] = [
   {
     path: '/',
@@ -34,6 +39,31 @@ const mainRoutes: IRoute[] = [
   },
 ];
 
-const routes: IRoute[] = [...authRoutes, ...mainRoutes];
+// Admin required
+const adminRoutes: IRoute[] = [
+  {
+    path: 'admin',
+    auth: true,
+    admin: true,
+    name: 'Admin',
+    element: <AdminDashboard />,
+  },
+  {
+    path: 'admin/products',
+    auth: true,
+    admin: true,
+    name: 'Admin Products',
+    element: <AdminProducts />,
+  },
+  {
+    path: 'admin/categories',
+    auth: true,
+    admin: true,
+    name: 'Admin Categories',
+    element: <AdminCategories />,
+  },
+];
+
+const routes: IRoute[] = [...authRoutes, ...mainRoutes, ...adminRoutes];
 
 export default routes;

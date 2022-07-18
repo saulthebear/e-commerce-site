@@ -65,7 +65,9 @@ const App: React.FC<IAppProps> = () => {
               let element = route.element;
               // Protected routes
               if (route.auth) {
-                element = <AuthRoute>{route.element}</AuthRoute>;
+                if (route.admin)
+                  element = <AuthRoute requireAdmin>{route.element}</AuthRoute>;
+                else element = <AuthRoute>{route.element}</AuthRoute>;
               }
               return <Route key={index} path={route.path} element={element} />;
             })}
