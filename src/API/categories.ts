@@ -10,6 +10,18 @@ export const createCategory = async (body: ICategoryBody, token: string) => {
     },
     body: JSON.stringify(body),
   });
+
+  if (response.status >= 500) {
+    throw {
+      type: 'Server error',
+    };
+  }
+
+  if (response.status >= 400) {
+    const error = await response.json();
+    throw error;
+  }
+
   return response.json();
 };
 
