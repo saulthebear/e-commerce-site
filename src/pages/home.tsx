@@ -21,6 +21,9 @@ const dummy_products: IProductDocument[] = [
       createdAt: new Date('2020-01-01T00:00:00.000Z'),
       updatedAt: new Date('2020-01-01T00:00:00.000Z'),
     },
+    reviews: [],
+    createdAt: new Date('2020-01-01T00:00:00.000Z'),
+    updatedAt: new Date('2020-01-01T00:00:00.000Z'),
   },
   {
     _id: '2',
@@ -35,6 +38,9 @@ const dummy_products: IProductDocument[] = [
       createdAt: new Date('2020-01-01T00:00:00.000Z'),
       updatedAt: new Date('2020-01-01T00:00:00.000Z'),
     },
+    reviews: [],
+    createdAt: new Date('2020-01-01T00:00:00.000Z'),
+    updatedAt: new Date('2020-01-01T00:00:00.000Z'),
   },
 ];
 
