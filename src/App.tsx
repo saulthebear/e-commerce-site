@@ -2,7 +2,7 @@ import React, { useEffect, useReducer, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import AuthRoute from './components/AuthRoute';
 import Loading from './components/Loading';
-import Navbar from './components/Navbar';
+import Navbar from './components/Navbar/Navbar';
 import logging from './config/logging';
 import routes from './config/routes';
 import {
@@ -58,16 +58,18 @@ const App: React.FC<IAppProps> = () => {
   return (
     <UserContextProvider value={userContextValues}>
       <Navbar />
-      <Routes>
-        {routes.map((route, index) => {
-          let element = route.element;
-          // Protected routes
-          if (route.auth) {
-            element = <AuthRoute>{route.element}</AuthRoute>;
-          }
-          return <Route key={index} path={route.path} element={element} />;
-        })}
-      </Routes>
+        <div className="bg-yellow-300 relative top-navbar-height h-full p-5">
+          <Routes>
+            {routes.map((route, index) => {
+              let element = route.element;
+              // Protected routes
+              if (route.auth) {
+                element = <AuthRoute>{route.element}</AuthRoute>;
+              }
+              return <Route key={index} path={route.path} element={element} />;
+            })}
+          </Routes>
+        </div>
     </UserContextProvider>
   );
 };
