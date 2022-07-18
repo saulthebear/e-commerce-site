@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { MdClose } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import UserContext, { initialUserState } from '../../contexts/user';
 import SidebarItem from './SidebarItem';
 
 export interface ISidebarProps {
@@ -8,8 +9,6 @@ export interface ISidebarProps {
   setIsOpen: (isOpen: boolean) => void;
   toggleSidebar: () => void;
   items: React.ReactNode[];
-  isLoggedIn: boolean;
-  logoutHandler: () => void;
 }
 
 const Sidebar: React.FC<ISidebarProps> = ({
@@ -17,9 +16,20 @@ const Sidebar: React.FC<ISidebarProps> = ({
   setIsOpen,
   toggleSidebar,
   items,
-  isLoggedIn,
-  logoutHandler,
 }) => {
+  const userContext = useContext(UserContext);
+  const { user } = userContext.userState;
+
+  const isLoggedIn = user.uid !== '';
+  const isAdmin = user.role === 'ADMIN';
+
+  const logout = () => {
+    userContext.userDispatch({
+      type: 'LOGOUT',
+      payload: initialUserState,
+    });
+  };
+
   const itemsList = items.map((item, index) => {
     return (
       <li key={index} onClick={() => setIsOpen(false)}>
@@ -44,7 +54,7 @@ const Sidebar: React.FC<ISidebarProps> = ({
         <ul>{itemsList}</ul>
         <div className="mt-10 space-y-3 flex flex-col text-xl text-slate-600">
           {isLoggedIn ? (
-            <button onClick={() => logoutHandler()}>Logout</button>
+            <button onClick={() => logout()}>Logout</button>
           ) : (
             <>
               <Link
@@ -62,6 +72,33 @@ const Sidebar: React.FC<ISidebarProps> = ({
                 Sign Up
               </Link>
             </>
+          )}
+        </div>
+        <div className="mt-10 space-y-3 flex flex-col text-xl text-red-600">
+          {isAdmin && (
+            <div className="flex flex-col">
+              <Link
+                to="/admin"
+                className="hover:text-red-900 transition-colors ease-in-out duration-100"
+                onClick={() => setIsOpen(false)}
+              >
+                Admin Dashboard
+              </Link>
+              <Link
+                to="/admin/products"
+                className="hover:text-red-900 transition-colors ease-in-out duration-100"
+                onClick={() => setIsOpen(false)}
+              >
+                Products
+              </Link>
+              <Link
+                to="/admin/categories"
+                className="hover:text-red-900 transition-colors ease-in-out duration-100"
+                onClick={() => setIsOpen(false)}
+              >
+                Categories
+              </Link>
+            </div>
           )}
         </div>
       </div>
