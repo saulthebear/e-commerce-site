@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { ICategoryDocument } from '../../interfaces/product';
 import { getCategories } from '../../API/categories';
 import Loading from '../../components/Loading';
-import CategoryTile from '../../components/Category/CategoryTile';
-import CreateCategoryForm from '../../components/Category/CreateCategoryForm';
-import UpdateCategoryForm from '../../components/Category/UpdateCategoryForm';
+import CategoryTile from '../../components/Category/AdminCategoryTile';
+import CreateCategoryForm from '../../components/Category/AdminCreateCategoryForm';
+import UpdateCategoryForm from '../../components/Category/AdminUpdateCategoryForm';
 
 const AdminCategories = () => {
   const [categories, setCategories] = useState<ICategoryDocument[]>([]);
