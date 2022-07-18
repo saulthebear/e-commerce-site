@@ -18,7 +18,7 @@ const ProductsList: React.FC<{ products: IProductDocument[] }> = ({
     return <div>No products found</div>;
   }
 
-  return <div>{productList}</div>;
+  return <div className="grid grid-cols-2 gap-5">{productList}</div>;
 };
 
 export default ProductsList;
