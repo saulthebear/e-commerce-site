@@ -5,6 +5,7 @@ import SidebarItem from './SidebarItem';
 
 export interface ISidebarProps {
   isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
   toggleSidebar: () => void;
   items: React.ReactNode[];
   isLoggedIn: boolean;
@@ -13,6 +14,7 @@ export interface ISidebarProps {
 
 const Sidebar: React.FC<ISidebarProps> = ({
   isOpen,
+  setIsOpen,
   toggleSidebar,
   items,
   isLoggedIn,
@@ -20,7 +22,7 @@ const Sidebar: React.FC<ISidebarProps> = ({
 }) => {
   const itemsList = items.map((item, index) => {
     return (
-      <li key={index}>
+      <li key={index} onClick={() => setIsOpen(false)}>
         <SidebarItem isShown={isOpen} extraDelay={index * 100}>
           {item}
         </SidebarItem>
@@ -48,12 +50,14 @@ const Sidebar: React.FC<ISidebarProps> = ({
               <Link
                 to="/login"
                 className="hover:text-slate-900 transition-colors ease-in-out duration-100"
+                onClick={() => setIsOpen(false)}
               >
                 Login
               </Link>
               <Link
                 to="/register"
                 className="hover:text-slate-900 transition-colors ease-in-out duration-100"
+                onClick={() => setIsOpen(false)}
               >
                 Sign Up
               </Link>

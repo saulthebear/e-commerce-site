@@ -8,20 +8,6 @@ import { getCategories } from '../../API/categories';
 import logging from '../../config/logging';
 import { ICategoryDocument } from '../../interfaces/product';
 
-const dummy_sidebar_items = [
-  <Link to="/" key={'sidebar-home'}>
-    Home
-  </Link>,
-  <Link to="/categories/1" key={'sidebar-category-1'}>
-    Category 1
-  </Link>,
-  'Item 3',
-  'Item 4',
-  'Item 5',
-  'Item 6',
-  'Item 7',
-];
-
 // Display component for the navbar
 export interface INavbarDisplayProps {
   isLoggedIn: boolean;
@@ -41,6 +27,7 @@ export const NavbarDisplay: React.FC<INavbarDisplayProps> = ({
     <>
       <Sidebar
         isOpen={isOpen}
+        setIsOpen={setIsOpen}
         toggleSidebar={toggleSidebar}
         items={items}
         isLoggedIn={isLoggedIn}
@@ -91,7 +78,7 @@ const Navbar: React.FC<INavbarProps> = () => {
 
   const sidebar_items = categories.map((category) => {
     return (
-      <Link to={`/categories/${category._id}`} key={category._id}>
+      <Link to={`/category/${category._id}`} key={category._id}>
         {category.title}
       </Link>
     );
