@@ -3,11 +3,12 @@ import Rating from '../components/Rating/Rating';
 // import { useParams } from 'react-router-dom';
 import IPage from '../interfaces/page';
 import { IProductDocument } from '../interfaces/product';
+import { dbPriceToClientPriceString } from '../utils/priceFunctions';
 
 const dummy_product: IProductDocument = {
   _id: '5e9f8f8f8f8f8f8f8f8f8f8f',
   title: 'Product 1',
-  price: 10,
+  price: 1050,
   description:
     'Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro illum illo est, dolores exercitationem ad inventore praesentium? Beatae, quos recusandae culpa corporis eos sit quas quam enim saepe, numquam nam. Suscipit earum tempora accusamus. Molestias, beatae ducimus aperiam earum sed aspernatur. Neque, asperiores dolor repellat distinctio necessitatibus odit atque animi.',
   image_url: 'https://picsum.photos/200/200',
@@ -37,7 +38,7 @@ const ProductPage: React.FC<IPage> = () => {
         <div className="bg-purple-200 flex justify-between items-center">
           <div className="flex flex-col">
             <h1 className="text-3xl font-semibold">{product.title}</h1>
-            <p>Price: {product.price}</p>
+            <p>{dbPriceToClientPriceString(product.price)}</p>
           </div>
           <Rating rating={4.68} count={10} />
         </div>
