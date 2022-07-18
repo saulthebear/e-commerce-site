@@ -1,6 +1,8 @@
 // import React, { useEffect, useContext } from 'react';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { getProducts } from '../API/products';
+import ProductTile from '../components/Product/ProductTile';
 import logging from '../config/logging';
 import IPage from '../interfaces/page';
 import { IProductDocument } from '../interfaces/product';
@@ -60,14 +62,9 @@ const HomePage: React.FC<IPage> = () => {
 
   const productList = products.map((product) => {
     return (
-      <div key={product._id}>
-        <h3>Title: {product.title}</h3>
-        <p>Description: {product.description}</p>
-        <p>Price: {product.price}</p>
-        {product.image_url && (
-          <img src={product.image_url} alt={product.title} />
-        )}
-      </div>
+      <Link to={`/products/${product._id}`} key={product._id}>
+        <ProductTile product={product} />
+      </Link>
     );
   });
 
