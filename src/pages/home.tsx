@@ -1,70 +1,37 @@
 // import React, { useEffect, useContext } from 'react';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { getProducts } from '../API/products';
+import Loading from '../components/Loading';
 import ProductsList from '../components/Product/ProductsList';
-import ProductTile from '../components/Product/ProductTile';
 import logging from '../config/logging';
 import IPage from '../interfaces/page';
 import { IProductDocument } from '../interfaces/product';
-// import { test } from '../API/products';
-// import UserContext from '../contexts/user';
-
-const dummy_products: IProductDocument[] = [
-  {
-    _id: '1',
-    title: 'Product 1',
-    price: 10,
-    description: 'This is product 1',
-    image_url: 'https://picsum.photos/200/200',
-    category: {
-      _id: '1',
-      title: 'Category 1',
-      description: 'This is category 1',
-      createdAt: new Date('2020-01-01T00:00:00.000Z'),
-      updatedAt: new Date('2020-01-01T00:00:00.000Z'),
-    },
-    reviews: [],
-    createdAt: new Date('2020-01-01T00:00:00.000Z'),
-    updatedAt: new Date('2020-01-01T00:00:00.000Z'),
-  },
-  {
-    _id: '2',
-    title: 'Product 2',
-    price: 20,
-    description: 'This is product 2',
-    image_url: 'https://picsum.photos/200/200',
-    category: {
-      _id: '1',
-      title: 'Category 1',
-      description: 'This is category 1',
-      createdAt: new Date('2020-01-01T00:00:00.000Z'),
-      updatedAt: new Date('2020-01-01T00:00:00.000Z'),
-    },
-    reviews: [],
-    createdAt: new Date('2020-01-01T00:00:00.000Z'),
-    updatedAt: new Date('2020-01-01T00:00:00.000Z'),
-  },
-];
 
 const HomePage: React.FC<IPage> = () => {
-  const [products, setProducts] = useState<IProductDocument[]>(dummy_products);
+  const [products, setProducts] = useState<IProductDocument[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  // useEffect(() => {
-  //   const fetchProducts = async () => {
-  //     logging.info('HomePage: fetching products');
-  //     const data = await getProducts();
-  //     logging.info('HomePage: fetched products');
-  //     logging.info(data);
-  //     setProducts(data.products);
-  //   };
-  //   fetchProducts();
-  // }, []);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setLoading(true);
+      logging.info('HomePage: fetching products');
+      const data = await getProducts();
+      logging.info('HomePage: fetched products');
+      logging.info(data);
+      setProducts(data.products);
+      setLoading(false);
+    };
+    fetchProducts();
+  }, []);
 
   return (
     <>
       <h1>All Products</h1>
-      <ProductsList products={products} />
+      {loading ? (
+        <Loading>Loading Products...</Loading>
+      ) : (
+        <ProductsList products={products} />
+      )}
     </>
   );
 };

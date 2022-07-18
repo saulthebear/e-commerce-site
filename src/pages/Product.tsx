@@ -1,32 +1,63 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Rating from '../components/Rating/Rating';
-// import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import IPage from '../interfaces/page';
-import { IProductDocument } from '../interfaces/product';
+import { IProductDocument, IReviewDocument } from '../interfaces/product';
 import { dbPriceToClientPriceString } from '../utils/priceFunctions';
+import Loading from '../components/Loading';
+import { getProduct } from '../API/products';
+import logging from '../config/logging';
 
-const dummy_product: IProductDocument = {
-  _id: '5e9f8f8f8f8f8f8f8f8f8f8f',
-  title: 'Product 1',
-  price: 1050,
-  description:
-    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro illum illo est, dolores exercitationem ad inventore praesentium? Beatae, quos recusandae culpa corporis eos sit quas quam enim saepe, numquam nam. Suscipit earum tempora accusamus. Molestias, beatae ducimus aperiam earum sed aspernatur. Neque, asperiores dolor repellat distinctio necessitatibus odit atque animi.',
-  image_url: 'https://picsum.photos/200/200',
-  category: {
-    _id: '5e9f8f8f8f8f8f8f8f8f8f8f',
-    title: 'Category 1',
-    description: 'This is a category',
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  reviews: [],
-  createdAt: new Date(),
-  updatedAt: new Date(),
+interface IReviewSummary {
+  averageRating: number;
+  totalReviews: number;
+}
+
+const initialReviewSummary = {
+  averageRating: 0,
+  totalReviews: 0,
+} as IReviewSummary;
+
+const summarizeReviews = (reviews: IReviewDocument[]): IReviewSummary => {
+  if (reviews.length === 0) return initialReviewSummary;
+  const averageRating =
+    reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length;
+  const totalReviews = reviews.length;
+  return { averageRating, totalReviews };
 };
 
 const ProductPage: React.FC<IPage> = () => {
-  const product = dummy_product;
-  // const { id } = useParams();
+  // const product = dummy_product;
+  const { id } = useParams();
+  const [product, setProduct] = useState<IProductDocument>();
+  const [loading, setLoading] = useState(false);
+  const [reviewSummary, setReviewSummary] =
+    useState<IReviewSummary>(initialReviewSummary);
+
+  useEffect(() => {
+    if (product) {
+      setReviewSummary(summarizeReviews(product.reviews));
+      console.dir(product);
+      logging.info(product.reviews);
+      logging.info(reviewSummary);
+    }
+  }, [product]);
+
+  useEffect(() => {
+    if (!id) return;
+    const fetchProduct = async () => {
+      setLoading(true);
+      const data = await getProduct(id);
+      setProduct(data.product);
+      setLoading(false);
+    };
+    fetchProduct();
+  }, [id]);
+
+  if (loading) return <Loading>Loading Product...</Loading>;
+
+  if (!id || !product) return <div>Product not found</div>;
+
   return (
     <div className=" space-y-8 bg-fuchsia-400">
       <div className="space-y-3 bg-green-300">
@@ -40,7 +71,10 @@ const ProductPage: React.FC<IPage> = () => {
             <h1 className="text-3xl font-semibold">{product.title}</h1>
             <p>{dbPriceToClientPriceString(product.price)}</p>
           </div>
-          <Rating rating={4.68} count={10} />
+          <Rating
+            rating={reviewSummary.averageRating}
+            count={reviewSummary.totalReviews}
+          />
         </div>
         <p>{product.description}</p>
         <div>Add to cart</div>

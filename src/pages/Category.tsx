@@ -5,6 +5,7 @@ import { getCategory } from '../API/categories';
 import ProductsList from '../components/Product/ProductsList';
 import logging from '../config/logging';
 import { ICategoryDocument, IProductDocument } from '../interfaces/product';
+import Loading from '../components/Loading';
 
 const Category = () => {
   const categoryId = useParams().id;
@@ -38,7 +39,7 @@ const Category = () => {
   }, [categoryId]);
 
   if (loadingCategory) {
-    return <div>Loading category...</div>;
+    return <Loading>Loading Category...</Loading>;
   } else {
     if (!category) {
       return <div>Category not found</div>;
@@ -50,7 +51,7 @@ const Category = () => {
       <h1>{category.title}</h1>
       <p>{category.description}</p>
       {loadingProducts ? (
-        <div>Loading Products...</div>
+        <Loading>Loading Products...</Loading>
       ) : (
         <ProductsList products={products} />
       )}
