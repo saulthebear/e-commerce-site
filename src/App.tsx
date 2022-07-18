@@ -18,14 +18,8 @@ const App: React.FC<IAppProps> = () => {
   const [userState, userDispatch] = useReducer(userReducer, initialUserState);
   const [loading, setLoading] = useState(true);
 
-  // TODO: remove this
-  // Used for debugging purposes
-  const [authStage, setAuthStage] = useState('Checking local storage...');
-
   useEffect(() => {
-    setTimeout(() => {
-      CheckLocalStorageForCredentials();
-    }, 1000);
+    CheckLocalStorageForCredentials();
   }, []);
 
   /**
@@ -34,34 +28,19 @@ const App: React.FC<IAppProps> = () => {
    * If not, use is logged out.
    */
   const CheckLocalStorageForCredentials = () => {
-    setAuthStage('Checking credentials...');
     const fire_token = localStorage.getItem('fire_token');
     if (fire_token === null) {
       userDispatch({ type: 'LOGOUT', payload: initialUserState });
-      setAuthStage('No credentials found.');
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
+      setLoading(false);
     } else {
-      // TODO: validate the token against the server
-      // setAuthStage('Credentials found, validating ....');
-      // setTimeout(() => {
-      //   setLoading(false);
-      // }, 1000);
       return Validate(fire_token, (error, user) => {
         if (error) {
-          setAuthStage('Credentials found, but invalid Logging out...');
           logging.error(error);
           userDispatch({ type: 'LOGOUT', payload: initialUserState });
-          setTimeout(() => {
-            setLoading(false);
-          }, 1000);
+          setLoading(false);
         } else if (user) {
-          setAuthStage('Credentials found, valid. Logging in...');
           userDispatch({ type: 'LOGIN', payload: { user, fire_token } });
-          setTimeout(() => {
-            setLoading(false);
-          }, 1000);
+          setLoading(false);
         }
       });
     }
@@ -73,7 +52,7 @@ const App: React.FC<IAppProps> = () => {
   };
 
   if (loading) {
-    return <Loading>{authStage}</Loading>;
+    return <Loading>Checking login status...</Loading>;
   }
 
   return (
