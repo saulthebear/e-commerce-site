@@ -33,7 +33,7 @@ const Sidebar: React.FC<ISidebarProps> = ({
   const itemsList = items.map((item, index) => {
     return (
       <li key={index} onClick={() => setIsOpen(false)}>
-        <SidebarItem isShown={isOpen} extraDelay={index * 100}>
+        <SidebarItem isShown={isOpen} extraDelay={(index + 1) * 100}>
           {item}
         </SidebarItem>
       </li>
@@ -53,7 +53,14 @@ const Sidebar: React.FC<ISidebarProps> = ({
           </button>
         </div>
         {/* Categories */}
-        <ul>{itemsList}</ul>
+        <ul>
+          <li onClick={() => setIsOpen(false)}>
+            <SidebarItem isShown={isOpen} extraDelay={0}>
+              <Link to="/">All Products</Link>
+            </SidebarItem>
+          </li>
+          {itemsList}
+        </ul>
         {/* User links */}
         <div className="mt-10 space-y-3 flex flex-col text-xl text-slate-600">
           {isLoggedIn ? (

@@ -74,9 +74,9 @@ const Navbar: React.FC<INavbarProps> = () => {
           </div>
           {/* Right Side */}
           <div className="flex items-center">
-            <li className="flex items-center justify-center">
+            {/* <li className="flex items-center justify-center">
               <MdSearch size="1.5rem" />
-            </li>
+            </li> */}
             <li className="flex items-center justify-center">
               <button onClick={toggleCart}>
                 <CartIcon numItems={user.cart.items.length} />
