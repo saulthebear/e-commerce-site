@@ -1,9 +1,13 @@
 import React, { useContext, useState } from 'react';
 import { MdClose, MdAdd, MdRemove } from 'react-icons/md';
-import { checkout, clearCart, updateCart } from '../../API/cart';
+import {
+  addItem,
+  checkout,
+  clearCart,
+  decrementItem as decrementItemAPI,
+} from '../../API/cart';
 import logging from '../../config/logging';
 import UserContext from '../../contexts/user';
-import { ICart, ICartBody } from '../../interfaces/user';
 import { dbPriceToClientPriceString } from '../../utils/priceFunctions';
 import Loading from '../Loading';
 
@@ -49,83 +53,31 @@ const Cart: React.FC<ICartProps> = ({ isOpen, setIsOpen, toggleCart }) => {
     );
   });
 
-  const incrementItem = async (productId: string) => {
-    console.log(`Adding item to cart`, productId);
-    const initialCartBody: ICartBody = {
-      items: cart.items.map((item) => {
-        return {
-          product: item.product._id,
-          quantity: item.quantity,
-        };
-      }),
-    };
-
-    const newCartBody: ICartBody = {
-      items: initialCartBody.items.map((item) => {
-        if (item.product === productId) {
-          return {
-            product: item.product,
-            quantity: item.quantity + 1,
-          };
-        }
-        return item;
-      }),
-    };
-
-    console.log(`New cart body`, newCartBody);
-
-    // Update cart
+  const incrementItem = async (product_id: string) => {
     setIsLoading(true);
-    const newCart = await updateCart(newCartBody, userState.fire_token);
-    console.log(`New cart`, newCart);
+    const newCart = await addItem(product_id, cart, userState.fire_token);
     userDispatch({
       type: 'SET_CART',
       payload: {
-        user: { ...user, cart: newCart },
+        user: { ...userState.user, cart: newCart },
         fire_token: userState.fire_token,
       },
     });
     setIsLoading(false);
   };
 
-  const decrementItem = async (productId: string) => {
-    console.log(`Removing item from cart`, productId);
-    const initialCartBody: ICartBody = {
-      items: cart.items.map((item) => {
-        return {
-          product: item.product._id,
-          quantity: item.quantity,
-        };
-      }),
-    };
-
-    const newCartBody: ICartBody = {
-      items: initialCartBody.items.map((item) => {
-        if (item.product === productId) {
-          return {
-            product: item.product,
-            quantity: item.quantity - 1,
-          };
-        }
-        return item;
-      }),
-    };
-
-    // Remove item from cart if quantity is 0
-    newCartBody.items = newCartBody.items.filter((item) => {
-      return item.quantity > 0;
-    });
-
-    console.log(`New cart body`, newCartBody);
-
-    // Update cart
+  const decrementItem = async (product_id: string) => {
     setIsLoading(true);
-    const newCart = await updateCart(newCartBody, userState.fire_token);
-    console.log(`New cart`, newCart);
+    const newCart = await decrementItemAPI(
+      product_id,
+      cart,
+      userState.fire_token
+    );
+
     userDispatch({
       type: 'SET_CART',
       payload: {
-        user: { ...user, cart: newCart },
+        user: { ...userState.user, cart: newCart },
         fire_token: userState.fire_token,
       },
     });

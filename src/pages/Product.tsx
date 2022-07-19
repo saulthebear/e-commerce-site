@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Rating from '../components/Rating/Rating';
 import { useParams } from 'react-router-dom';
 import IPage from '../interfaces/page';
@@ -7,6 +7,8 @@ import { dbPriceToClientPriceString } from '../utils/priceFunctions';
 import Loading from '../components/Loading';
 import { getProduct } from '../API/products';
 import logging from '../config/logging';
+import { addItem } from '../API/cart';
+import UserContext from '../contexts/user';
 
 interface IReviewSummary {
   averageRating: number;
@@ -29,6 +31,7 @@ const summarizeReviews = (reviews: IReviewDocument[]): IReviewSummary => {
 const ProductPage: React.FC<IPage> = () => {
   // const product = dummy_product;
   const { id } = useParams();
+  const { userState, userDispatch } = useContext(UserContext);
   const [product, setProduct] = useState<IProductDocument>();
   const [loading, setLoading] = useState(false);
   const [reviewSummary, setReviewSummary] =
@@ -54,6 +57,23 @@ const ProductPage: React.FC<IPage> = () => {
     fetchProduct();
   }, [id]);
 
+  const handleAddToCart = async () => {
+    logging.info('handleAddToCart');
+    if (!product) return;
+    const newCart = await addItem(
+      product._id,
+      userState.user.cart,
+      userState.fire_token
+    );
+    userDispatch({
+      type: 'SET_CART',
+      payload: {
+        user: { ...userState.user, cart: newCart },
+        fire_token: userState.fire_token,
+      },
+    });
+  };
+
   if (loading) return <Loading>Loading Product...</Loading>;
 
   if (!id || !product) return <div>Product not found</div>;
@@ -77,7 +97,7 @@ const ProductPage: React.FC<IPage> = () => {
           />
         </div>
         <p>{product.description}</p>
-        <div>Add to cart</div>
+        <button onClick={handleAddToCart}>Add to cart</button>
       </div>
       <div>
         <h2>Reviews</h2>

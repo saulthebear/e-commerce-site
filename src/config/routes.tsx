@@ -9,6 +9,8 @@ import AdminCategories from '../pages/Admin/AdminCategories';
 import AdminProducts from '../pages/Admin/AdminProducts';
 import CheckoutSuccess from '../pages/CheckoutSuccess';
 import CheckoutFailure from '../pages/CheckoutFailure';
+import OrdersPage from '../pages/Orders';
+import OrderPage from '../pages/Order';
 
 // Require login
 const authRoutes: IRoute[] = [
@@ -45,6 +47,18 @@ const mainRoutes: IRoute[] = [
     auth: false,
     name: 'Category',
     element: <CategoryPage />,
+  },
+  {
+    path: '/orders',
+    auth: true,
+    name: 'Orders',
+    element: <OrdersPage />,
+  },
+  {
+    path: '/orders/:orderId',
+    auth: true,
+    name: 'Orders',
+    element: <OrderPage />,
   },
 ];
 

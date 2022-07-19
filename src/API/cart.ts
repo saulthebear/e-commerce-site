@@ -40,3 +40,118 @@ export const checkout = async (cart: ICartBody, token: string) => {
   const data = await response.json();
   return data;
 };
+
+export const addItem = async (
+  productId: string,
+  cart: ICart,
+  fire_token: string
+) => {
+  console.log(`Adding item to cart`, productId);
+  const initialCartBody: ICartBody = {
+    items: cart.items.map((item) => {
+      return {
+        product: item.product._id,
+        quantity: item.quantity,
+      };
+    }),
+  };
+
+  const itemAlreadyInCart = initialCartBody.items.find(
+    (item) => item.product === productId
+  );
+
+  let newCartBody: ICartBody;
+
+  if (itemAlreadyInCart) {
+    newCartBody = {
+      items: initialCartBody.items.map((item) => {
+        if (item.product === productId) {
+          return {
+            product: item.product,
+            quantity: item.quantity + 1,
+          };
+        }
+        return item;
+      }),
+    };
+  } else {
+    newCartBody = {
+      items: [
+        ...initialCartBody.items,
+        {
+          product: productId,
+          quantity: 1,
+        },
+      ],
+    };
+  }
+
+  console.log(`New cart body`, newCartBody);
+
+  const newCart = await updateCart(newCartBody, fire_token);
+  return newCart;
+};
+
+export const decrementItem = async (
+  productId: string,
+  cart: ICart,
+  fire_token: string
+) => {
+  console.log(`Decrementing item in cart`, productId);
+  const initialCartBody: ICartBody = {
+    items: cart.items.map((item) => {
+      return {
+        product: item.product._id,
+        quantity: item.quantity,
+      };
+    }),
+  };
+
+  const newCartBody: ICartBody = {
+    items: initialCartBody.items
+      .map((item) => {
+        if (item.product === productId) {
+          return {
+            product: item.product,
+            quantity: item.quantity - 1,
+          };
+        }
+        return item;
+      })
+      .filter((item) => item.quantity > 0),
+  };
+
+  console.log(`New cart body`, newCartBody);
+
+  const newCart = await updateCart(newCartBody, fire_token);
+  return newCart;
+};
+
+export const removeItem = async (
+  productId: string,
+  cart: ICart,
+  fire_token: string
+) => {
+  console.log(`Removing item from cart`, productId);
+  const initialCartBody: ICartBody = {
+    items: cart.items.map((item) => {
+      return {
+        product: item.product._id,
+        quantity: item.quantity,
+      };
+    }),
+  };
+
+  const newItems = initialCartBody.items.filter(
+    (item) => item.product !== productId
+  );
+
+  const newCartBody: ICartBody = {
+    items: newItems,
+  };
+
+  console.log(`New cart body`, newCartBody);
+
+  const newCart = await updateCart(newCartBody, fire_token);
+  return newCart;
+};
