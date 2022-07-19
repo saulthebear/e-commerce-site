@@ -38,7 +38,6 @@ const Navbar: React.FC<INavbarProps> = () => {
       </Link>
     );
   });
-  console.log(`In Navbar, cart`, user.cart);
 
   return (
     <>

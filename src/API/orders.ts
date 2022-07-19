@@ -21,3 +21,12 @@ export const getOrder = async (orderId: string, token: string) => {
   });
   return response.json() as Promise<IOrderDocumentWithSession>;
 };
+
+export const getOrders = async (token: string) => {
+  const response = await fetch(`${config.server.url}/orders`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.json() as Promise<IOrdersResponse>;
+};
