@@ -52,7 +52,7 @@ const Navbar: React.FC<INavbarProps> = () => {
         setIsOpen={setIsCartOpen}
         toggleCart={toggleCart}
       />
-      <div className="bg-white fixed w-full h-navbar-height flex items-center px-5">
+      <div className="bg-white border-b-2 border-slate-300 fixed w-full h-navbar-height flex items-center px-5 z-20">
         <ul className="flex justify-between w-full">
           {/* Left side */}
           <div className="flex items-center justify-center">
