@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { MdClose, MdAdd, MdRemove } from 'react-icons/md';
-import { updateCart } from '../../API/cart';
+import { checkout, clearCart, updateCart } from '../../API/cart';
+import logging from '../../config/logging';
 import UserContext from '../../contexts/user';
 import { ICart, ICartBody } from '../../interfaces/user';
 import { dbPriceToClientPriceString } from '../../utils/priceFunctions';
@@ -131,6 +132,35 @@ const Cart: React.FC<ICartProps> = ({ isOpen, setIsOpen, toggleCart }) => {
     setIsLoading(false);
   };
 
+  const handleCheckout = async () => {
+    console.log('Checking out');
+    setIsLoading(true);
+    const cartBody = {
+      items: cart.items.map((item) => {
+        return {
+          product: item.product._id,
+          quantity: item.quantity,
+        };
+      }),
+    };
+    const response = await checkout(cartBody, userState.fire_token);
+    console.log(`Checkout response`, response);
+
+    if (!response.session && response.session.url) {
+      logging.error(`Checkout error`, response);
+      setIsLoading(false);
+      return;
+    }
+
+    // Clear cart
+    setIsLoading(false);
+    setIsOpen(false);
+    clearCart(userState.fire_token);
+
+    // Redirect to checkout page
+    window.location.href = response.session.url;
+  };
+
   const totalPrice = cart.items.reduce((acc, item) => {
     return acc + item.product.price * item.quantity;
   }, 0);
@@ -152,7 +182,7 @@ const Cart: React.FC<ICartProps> = ({ isOpen, setIsOpen, toggleCart }) => {
           <p className="text-sm">
             Total: {dbPriceToClientPriceString(totalPrice)}
           </p>
-          <button>
+          <button onClick={handleCheckout}>
             <p className="text-sm">Checkout</p>
           </button>
         </div>

@@ -7,6 +7,8 @@ import CategoryPage from '../pages/Category';
 import AdminDashboard from '../pages/Admin/AdminDashboard';
 import AdminCategories from '../pages/Admin/AdminCategories';
 import AdminProducts from '../pages/Admin/AdminProducts';
+import CheckoutSuccess from '../pages/CheckoutSuccess';
+import CheckoutFailure from '../pages/CheckoutFailure';
 
 // Require login
 const authRoutes: IRoute[] = [
@@ -71,6 +73,26 @@ const adminRoutes: IRoute[] = [
   },
 ];
 
-const routes: IRoute[] = [...authRoutes, ...mainRoutes, ...adminRoutes];
+const checkoutRoutes: IRoute[] = [
+  {
+    path: 'checkout/success',
+    auth: true,
+    name: 'Checkout Success',
+    element: <CheckoutSuccess />,
+  },
+  {
+    path: 'checkout/failure',
+    auth: true,
+    name: 'Checkout Failure',
+    element: <CheckoutFailure />,
+  },
+];
+
+const routes: IRoute[] = [
+  ...authRoutes,
+  ...mainRoutes,
+  ...adminRoutes,
+  ...checkoutRoutes,
+];
 
 export default routes;
