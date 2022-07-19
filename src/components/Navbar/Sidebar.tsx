@@ -46,15 +46,21 @@ const Sidebar: React.FC<ISidebarProps> = ({
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
+        {/* Header (close button) */}
         <div className="mb-8">
           <button onClick={toggleSidebar}>
             <MdClose size="1.5em" />
           </button>
         </div>
+        {/* Categories */}
         <ul>{itemsList}</ul>
+        {/* User links */}
         <div className="mt-10 space-y-3 flex flex-col text-xl text-slate-600">
           {isLoggedIn ? (
-            <button onClick={() => logout()}>Logout</button>
+            <>
+              <Link to="/orders">My Orders</Link>
+              <button onClick={() => logout()}>Logout</button>
+            </>
           ) : (
             <>
               <Link
@@ -74,6 +80,7 @@ const Sidebar: React.FC<ISidebarProps> = ({
             </>
           )}
         </div>
+        {/* Admin Links */}
         <div className="mt-10 space-y-3 flex flex-col text-xl text-red-600">
           {isAdmin && (
             <div className="flex flex-col">
