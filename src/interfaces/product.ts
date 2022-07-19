@@ -23,8 +23,7 @@ export interface IProductBody {
 }
 
 export interface IProductDocument
-  extends Omit<IProductBody, 'category' | 'reviews'>,
+  extends Omit<IProductBody, 'reviews'>,
     IMongoDocument {
-  category: ICategoryDocument;
   reviews: IReviewDocument[];
 }

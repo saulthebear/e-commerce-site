@@ -1,8 +1,13 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { getCategories } from '../../API/categories';
 import { updateProduct } from '../../API/products';
 import logging from '../../config/logging';
 import UserContext from '../../contexts/user';
-import { IProductBody, IProductDocument } from '../../interfaces/product';
+import {
+  ICategoryDocument,
+  IProductBody,
+  IProductDocument,
+} from '../../interfaces/product';
 
 interface IAdminProductEditFormProps {
   initialProduct: IProductDocument;
@@ -19,10 +24,29 @@ const AdminProductEditForm: React.FC<IAdminProductEditFormProps> = ({
   const [description, setDescription] = useState(initialProduct.description);
   const [price, setPrice] = useState(initialProduct.price);
   const [imageUrl, setImageUrl] = useState(initialProduct.image_url);
-  const [category, setCategory] = useState(initialProduct.category._id);
+  const [category, setCategory] = useState(initialProduct.category);
+
+  const [categories, setCategories] = useState<ICategoryDocument[]>([]);
+  const [loadingCategories, setLoadingCategories] = useState(false);
 
   const { userState } = useContext(UserContext);
   const { fire_token } = userState;
+
+  const fetchCategories = async () => {
+    setLoadingCategories(true);
+    const response = await getCategories();
+    setCategories(response.categories);
+    console.log(response);
+    setLoadingCategories(false);
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  console.log(`The currently selected category is: ${category}`);
+  console.log(`The initial product is:`, initialProduct);
+  console.log(`The first category is: ${categories[0]?._id}`);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,6 +67,10 @@ const AdminProductEditForm: React.FC<IAdminProductEditFormProps> = ({
     await updateProduct(initialProduct._id, body, fire_token);
     afterSubmit();
   };
+
+  if (loadingCategories) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <form onSubmit={handleSubmit} className="bg-green-300">
@@ -87,14 +115,19 @@ const AdminProductEditForm: React.FC<IAdminProductEditFormProps> = ({
         />
       </div>
       <div>
-        <label>Category</label>
-        <input
-          type="text"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+        <label>Categories</label>
+        <select
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
             setCategory(e.target.value)
           }
-          value={category}
-        />
+          value={category === '' ? categories[0]?._id : category}
+        >
+          {categories.map((category_option) => (
+            <option key={category_option._id} value={category_option._id}>
+              {category_option.title}
+            </option>
+          ))}
+        </select>
       </div>
       <button type="submit">Submit</button>
       <button type="button" onClick={() => setUpdatingProduct(null)}>

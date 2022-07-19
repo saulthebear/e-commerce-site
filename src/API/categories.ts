@@ -1,5 +1,5 @@
 import config from '../config/config';
-import { ICategoryBody } from '../interfaces/product';
+import { ICategoryBody, ICategoryDocument } from '../interfaces/product';
 
 export const createCategory = async (body: ICategoryBody, token: string) => {
   const response = await fetch(`${config.server.url}/categories`, {
@@ -27,7 +27,10 @@ export const createCategory = async (body: ICategoryBody, token: string) => {
 
 export const getCategories = async () => {
   const response = await fetch(`${config.server.url}/categories`);
-  return response.json();
+  return response.json() as Promise<{
+    count: number;
+    categories: ICategoryDocument[];
+  }>;
 };
 
 export const getCategory = async (id: string) => {

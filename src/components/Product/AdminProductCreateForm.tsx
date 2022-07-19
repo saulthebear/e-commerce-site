@@ -1,8 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { getCategories } from '../../API/categories';
 import { createProduct } from '../../API/products';
 import logging from '../../config/logging';
 import UserContext from '../../contexts/user';
-import { IProductBody } from '../../interfaces/product';
+import { ICategoryDocument, IProductBody } from '../../interfaces/product';
 
 interface IAdminProductCreateForm {
   afterSubmit: () => void;
@@ -17,8 +18,23 @@ const AdminProductCreateForm: React.FC<IAdminProductCreateForm> = ({
   const [imageUrl, setImageUrl] = useState('');
   const [category, setCategory] = useState('');
 
+  const [categories, setCategories] = useState<ICategoryDocument[]>([]);
+  const [loadingCategories, setLoadingCategories] = useState(false);
+
   const { userState } = useContext(UserContext);
   const { fire_token } = userState;
+
+  const fetchCategories = async () => {
+    setLoadingCategories(true);
+    const response = await getCategories();
+    setCategories(response.categories);
+    console.log(response);
+    setLoadingCategories(false);
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,6 +55,10 @@ const AdminProductCreateForm: React.FC<IAdminProductCreateForm> = ({
     await createProduct(body, fire_token);
     afterSubmit();
   };
+
+  if (loadingCategories) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <form onSubmit={handleSubmit} className="bg-green-300">
@@ -83,14 +103,19 @@ const AdminProductCreateForm: React.FC<IAdminProductCreateForm> = ({
         />
       </div>
       <div>
-        <label>Category</label>
-        <input
-          type="text"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+        <label>Categories</label>
+        <select
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
             setCategory(e.target.value)
           }
-          value={category}
-        />
+          value={category === '' ? categories[0]?._id : category}
+        >
+          {categories.map((category_option) => (
+            <option key={category_option._id} value={category_option._id}>
+              {category_option.title}
+            </option>
+          ))}
+        </select>
       </div>
       <button type="submit">Create</button>
     </form>
