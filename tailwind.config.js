@@ -10,6 +10,10 @@ module.exports = {
       },
       spacing: {
         'navbar-height': '64px',
+        'adjusted-screen-height': 'calc(100vh - 64px)',
+      },
+      minHeight: {
+        'adjusted-screen-height': 'calc(100vh - 64px)',
       },
     },
   },
