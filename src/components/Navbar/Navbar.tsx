@@ -53,23 +53,32 @@ const Navbar: React.FC<INavbarProps> = () => {
         setIsOpen={setIsCartOpen}
         toggleCart={toggleCart}
       />
-      <div className="bg-white fixed w-full h-navbar-height flex items-center">
+      <div className="bg-white fixed w-full h-navbar-height flex items-center px-5">
         <ul className="flex justify-between w-full">
-          <div className="flex items-center">
-            <li>
+          {/* Left side */}
+          <div className="flex items-center justify-center">
+            <li className="flex items-center justify-center">
               <button onClick={toggleSidebar}>
                 <MdMenu size="1.5rem" />
               </button>
             </li>
-            <li>
-              <Link to="/">Home</Link>
+          </div>
+          {/* center */}
+          <div className="flex items-center">
+            <li className="flex items-center justify-center">
+              <Link to="/">
+                <span className="text-3xl font-bold font-brand">
+                  MarketPlace
+                </span>
+              </Link>
             </li>
           </div>
+          {/* Right Side */}
           <div className="flex items-center">
-            <li>
+            <li className="flex items-center justify-center">
               <MdSearch size="1.5rem" />
             </li>
-            <li>
+            <li className="flex items-center justify-center">
               <button onClick={toggleCart}>
                 <CartIcon numItems={user.cart.items.length} />
               </button>

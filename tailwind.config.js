@@ -4,8 +4,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        baloo: ['Montserrat', 'cursive'],
-        sans: ['Montserrat', 'sans-serif'],
+        baloo: ['"Baloo 2"', 'cursive'],
+        brand: ['Vollkorn', 'serif'],
+        sans: ['"Baloo 2"', 'sans-serif'],
       },
       spacing: {
         'navbar-height': '64px',
