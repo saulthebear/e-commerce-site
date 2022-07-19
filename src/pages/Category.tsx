@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getProductsByCategory } from '../API/products';
 import { getCategory } from '../API/categories';
-import ProductsList from '../components/Product/ProductsList';
-import logging from '../config/logging';
 import { ICategoryDocument, IProductDocument } from '../interfaces/product';
 import Loading from '../components/Loading';
+import CategoryPageDisplay from '../components/Category/CategoryPageDisplay';
 
 const Category = () => {
   const categoryId = useParams().id;
@@ -41,15 +40,12 @@ const Category = () => {
   }
 
   return (
-    <div>
-      <h1>{category.title}</h1>
-      <p>{category.description}</p>
-      {loadingProducts ? (
-        <Loading>Loading Products...</Loading>
-      ) : (
-        <ProductsList products={products} />
-      )}
-    </div>
+    <CategoryPageDisplay
+      title={category.title}
+      description={category.description}
+      products={products}
+      isLoading={loadingProducts}
+    />
   );
 };
 

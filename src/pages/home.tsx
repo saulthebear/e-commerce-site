@@ -1,9 +1,8 @@
 // import React, { useEffect, useContext } from 'react';
 import React, { useEffect, useState } from 'react';
 import { getProducts } from '../API/products';
+import CategoryPageDisplay from '../components/Category/CategoryPageDisplay';
 import Loading from '../components/Loading';
-import ProductsList from '../components/Product/ProductsList';
-import logging from '../config/logging';
 import IPage from '../interfaces/page';
 import { IProductDocument } from '../interfaces/product';
 
@@ -23,15 +22,17 @@ const HomePage: React.FC<IPage> = () => {
     fetchProducts();
   }, []);
 
+  if (loading) {
+    return <Loading>Loading Products...</Loading>;
+  }
+
   return (
-    <>
-      <h1>All Products</h1>
-      {loading ? (
-        <Loading>Loading Products...</Loading>
-      ) : (
-        <ProductsList products={products} />
-      )}
-    </>
+    <CategoryPageDisplay
+      title="All Products"
+      description=""
+      products={products}
+      isLoading={loading}
+    />
   );
 };
 
