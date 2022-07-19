@@ -28,9 +28,7 @@ const LoginPage: React.FC<IPage> = () => {
 
     try {
       const result = await SocialPopup(provider);
-      logging.info(
-        `User signed in with ${provider.providerId}: ${result.user.displayName}`
-      );
+
       console.log(result);
       const user = result.user;
       if (user.uid && user.displayName && user.email) {

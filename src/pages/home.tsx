@@ -14,10 +14,9 @@ const HomePage: React.FC<IPage> = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
-      logging.info('HomePage: fetching products');
+
       const data = await getProducts();
-      logging.info('HomePage: fetched products');
-      logging.info(data);
+
       setProducts(data.products);
       setLoading(false);
     };

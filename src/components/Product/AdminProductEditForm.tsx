@@ -58,12 +58,7 @@ const AdminProductEditForm: React.FC<IAdminProductEditFormProps> = ({
       category,
       reviews: [],
     };
-    logging.info('AdminProducts.createProduct');
-    logging.info(`title: ${title}`);
-    logging.info(`description: ${description}`);
-    logging.info(`price: ${price}`);
-    logging.info(`imageUrl: ${imageUrl}`);
-    logging.info(`category: ${category}`);
+
     await updateProduct(initialProduct._id, body, fire_token);
     afterSubmit();
   };

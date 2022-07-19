@@ -23,9 +23,6 @@ const CreateCategoryForm: React.FC<ICreateCategoryFormProps> = ({
       title: categoryName,
       description: categoryDescription,
     };
-    logging.info('AdminCategories.createCategory');
-    logging.info(`categoryName: ${categoryName}`);
-    logging.info(`categoryDescription: ${categoryDescription}`);
     await createCategory(body, fire_token);
     afterSubmit();
   };

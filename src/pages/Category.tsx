@@ -17,21 +17,15 @@ const Category = () => {
   useEffect(() => {
     if (!categoryId) return;
     const fetchProducts = async () => {
-      logging.info(`Fetching products for category ${categoryId}`);
       setLoadingProducts(true);
       const data = await getProductsByCategory(categoryId);
       setProducts(data.products);
-      logging.info(`Fetched ${data.products.length} products`);
-      logging.info(data);
       setLoadingProducts(false);
     };
     const fetCategory = async () => {
-      logging.info(`Fetching category ${categoryId}`);
       setLoadingCategory(true);
       const data = await getCategory(categoryId);
       setCategory(data.category);
-      logging.info(`Fetched category ${data.category.name}`);
-      logging.info(data);
       setLoadingCategory(false);
     };
     fetCategory();

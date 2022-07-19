@@ -27,9 +27,6 @@ const UpdateCategoryForm: React.FC<IUpdateCategoryFormProps> = ({
       title: categoryName,
       description: categoryDescription,
     };
-    logging.info('AdminCategories.updateCategory');
-    logging.info(`categoryName: ${categoryName}`);
-    logging.info(`categoryDescription: ${categoryDescription}`);
     await updateCategory(initialState._id, body, fire_token);
     afterSubmit();
   };

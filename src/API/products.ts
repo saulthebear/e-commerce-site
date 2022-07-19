@@ -1,5 +1,4 @@
 import config from '../config/config';
-import logging from '../config/logging';
 import { IProductBody } from '../interfaces/product';
 
 export const createProduct = async (body: IProductBody, token: string) => {
@@ -57,41 +56,3 @@ export const deleteProduct = async (id: string, token: string) => {
   });
   return response.json();
 };
-
-// export const test = async (token: string) => {
-//   logging.info('testing products api');
-//   let response = {};
-//   // logging.info('creating product');
-//   // const response = await createProduct(
-//   //   {
-//   //     title: 'Test',
-//   //     description: 'Test',
-//   //     price: 1,
-//   //     category: '62d485ba12bd55ee17386c85',
-//   //   },
-//   //   token
-//   // );
-
-//   // logging.info('getting products');
-//   // response = await getProducts();
-//   // logging.info(response);
-
-//   // logging.info('getting 1 product');
-//   // response = await getProduct('62d37d2e167966f3d8d0fe2c');
-//   // logging.info(response);
-
-//   // logging.info('updating product');
-//   // response = await updateProduct(
-//   //   '62d37d2e167966f3d8d0fe2c',
-//   //   {
-//   //     title: 'Test updated',
-//   //   },
-//   //   token
-//   // );
-//   // logging.info(response);
-
-//   // logging.info('delete product');
-//   // response = await deleteProduct('62d37d2e167966f3d8d0fe2c', token);
-//   // logging.info(response);
-
-// };
