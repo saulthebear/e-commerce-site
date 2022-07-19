@@ -7,7 +7,7 @@ export interface IUserState {
 }
 
 export interface IUserActions {
-  type: 'LOGIN' | 'LOGOUT';
+  type: 'LOGIN' | 'LOGOUT' | 'SET_CART';
   payload: IUserState;
 }
 
@@ -27,6 +27,11 @@ export const userReducer = (state: IUserState, action: IUserActions) => {
     case 'LOGOUT':
       localStorage.removeItem('fire_token');
       return initialUserState;
+    case 'SET_CART':
+      return {
+        ...state,
+        user: { ...state.user, cart: action.payload.user.cart },
+      };
     default:
       return state;
   }
