@@ -1,6 +1,7 @@
 import React from 'react';
 import { IProductDocument } from '../../interfaces/product';
 import { dbPriceToClientPriceString } from '../../utils/priceFunctions';
+import ProductTile from './ProductTile';
 
 interface IAdminProductTile {
   product: IProductDocument;
@@ -12,10 +13,8 @@ const AdminProductTile: React.FC<IAdminProductTile> = ({
   setUpdatingProduct,
 }) => {
   return (
-    <div className="bg-lime-300 p-3 w-full h-full">
-      {product.image_url && <img src={product.image_url} alt={product.title} />}
-      <div>{product.title}</div>
-      <div>{dbPriceToClientPriceString(product.price)}</div>
+    <div className="flex flex-col justify-center items-center">
+      <ProductTile product={product} />
       <button
         onClick={() => {
           setUpdatingProduct(product);

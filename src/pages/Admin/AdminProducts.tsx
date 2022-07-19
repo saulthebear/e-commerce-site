@@ -4,6 +4,7 @@ import Loading from '../../components/Loading';
 import AdminProductCreateForm from '../../components/Product/AdminProductCreateForm';
 import AdminProductEditForm from '../../components/Product/AdminProductEditForm';
 import AdminProductTile from '../../components/Product/AdminProductTile';
+import PageHead from '../../components/UI/PageHead';
 import { IProductDocument } from '../../interfaces/product';
 
 function AdminProducts() {
@@ -56,10 +57,15 @@ function AdminProducts() {
           }}
         />
       )}
-      <h1>Products</h1>
-      <button onClick={() => setShowCreateForm(!showCreateForm)}>
-        {showCreateForm ? 'Cancel' : 'Create Product'}
-      </button>
+      <PageHead title="All Products">
+        <button
+          onClick={() => setShowCreateForm(!showCreateForm)}
+          className="uppercase bg-red-700 text-white py-1 px-3 rounded-full hover:bg-red-600"
+        >
+          {showCreateForm ? 'Cancel' : 'Create Product'}
+        </button>
+      </PageHead>
+
       {loading ? (
         <Loading>Loading products</Loading>
       ) : (
