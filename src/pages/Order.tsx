@@ -32,6 +32,14 @@ const OrderPage: React.FC = () => {
 
   console.log('orderResponse', orderResponse);
 
+  let orderStatusColor = 'bg-yellow-500';
+  if (
+    orderResponse?.session.status &&
+    ['complete', 'paid'].includes(orderResponse?.session.status)
+  ) {
+    orderStatusColor = 'bg-green-600';
+  }
+
   return (
     <div>
       <PageHead title="Order Details" />
@@ -54,7 +62,9 @@ const OrderPage: React.FC = () => {
                 {formatDate(new Date(orderResponse.order.createdAt))}
               </p>
             </div>
-            <div className="flex justify-center items-center w-fit h-fit text-sm px-5 py-2 rounded-full text-white uppercase font-medium bg-green-600">
+            <div
+              className={`flex justify-center items-center w-fit h-fit text-sm px-5 py-2 rounded-full text-white uppercase font-medium ${orderStatusColor}`}
+            >
               {orderResponse.session.status}
             </div>
           </div>

@@ -34,6 +34,7 @@ export interface ISessionDocument {
     | 'requires_action'
     | 'requires_confirmation'
     | 'requires_payment_method'
+    | 'complete'
     | 'paid'
     | 'canceled'
     | 'failed'
