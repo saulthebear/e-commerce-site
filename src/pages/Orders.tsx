@@ -1,9 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getUserOrders } from '../API/orders';
+import PageHead from '../components/UI/PageHead';
 import UserContext from '../contexts/user';
 import { IOrderDocument } from '../interfaces/order';
+import { formatDate } from '../utils/dateFunctions';
 import { dbPriceToClientPriceString } from '../utils/priceFunctions';
+import { MdNavigateNext } from 'react-icons/md';
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState<IOrderDocument[]>([]);
@@ -15,7 +18,6 @@ const OrdersPage = () => {
         userState.user._id,
         userState.fire_token
       );
-      console.log('responseData', responseData);
       setOrders(responseData.orders);
     };
     fetchOrders();
@@ -23,30 +25,37 @@ const OrdersPage = () => {
 
   const renderedOrders = orders.map((order) => {
     return (
-      <div key={order._id}>
-        <h3>{`${order.createdAt}`}</h3>
-        <ul>
+      <div key={order._id} className="bg-slate-200 p-5 rounded-md">
+        <h3 className="font-medium">{formatDate(new Date(order.createdAt))}</h3>
+        <ul className="ml-5 pl-5 list-disc">
           {order.products.map((item, index) => {
             return (
               <li key={`order-item-${index} -${item.product._id}`}>
-                <div>{item.product.title}</div>
                 <div>
+                  <span className="font-medium">{item.product.title}</span> -{' '}
                   {dbPriceToClientPriceString(item.price)} x{item.quantity}
                 </div>
               </li>
             );
           })}
         </ul>
-        <Link to={`/orders/${order._id}`}>Details</Link>
+        <div className="mt-5">
+          <Link
+            to={`/orders/${order._id}`}
+            className="hover:border-b-2 border-orange-700 uppercase px-3 py-1 text-sm font-medium text-orange-700 flex w-fit"
+          >
+            Details <MdNavigateNext className="fill-orange-700 text-2xl" />
+          </Link>
+        </div>
       </div>
     );
   });
 
   return (
     <div>
-      <h1>Your Orders</h1>
+      <PageHead title="Your Orders" />
       {orders.length <= 0 && <p>You have no orders</p>}
-      {renderedOrders}
+      <div className="flex flex-col gap-5">{renderedOrders}</div>
     </div>
   );
 };

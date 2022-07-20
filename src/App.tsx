@@ -59,7 +59,7 @@ const App: React.FC<IAppProps> = () => {
     <UserContextProvider value={userContextValues}>
       <div className="h-full">
         <Navbar />
-        <div className="relative top-navbar-height min-h-adjusted-screen-height bottom-0 pt-8 pb-16 ">
+        <div className="relative top-navbar-height min-h-adjusted-screen-height bottom-0 pt-8 pb-16 px-5">
           <Routes>
             {routes.map((route, index) => {
               let element = route.element;
