@@ -8,6 +8,8 @@ import logging from '../config/logging';
 import UserContext from '../contexts/user';
 import IPage from '../interfaces/page';
 import { Authenticate, SignInWithSocial as SocialPopup } from '../API/auth';
+import PageHead from '../components/UI/PageHead';
+import { FcGoogle } from 'react-icons/fc';
 
 const LoginPage: React.FC<IPage> = () => {
   const [authenticating, setAuthenticating] = useState(false);
@@ -77,20 +79,28 @@ const LoginPage: React.FC<IPage> = () => {
 
   return (
     <>
-      <h1>{isLogin ? 'Login page' : 'Register Page'}</h1>
-      <div>
-        <Error error={error} />
+      <PageHead title={isLogin ? 'Login' : 'Sign Up'} />
+      {error !== '' && (
+        <div className="bg-red-200 p-5 text-center text-red-800 rounded-lg mx-10 my-5">
+          An error occurred.
+        </div>
+      )}
+      <div className="my-5">
+        {authenticating && <Loading>Signing in...</Loading>}
       </div>
-      <div>
+      <div className="px-10">
         <button
           onClick={() =>
             SignInWithSocialMedia(firebaseServices.providers.google)
           }
           disabled={authenticating}
+          className="bg-blue-500 hover:bg-blue-700 disabled:bg-blue-200 disabled:text-blue-100 text-white font-bold py-3 px-4 rounded-full flex justify-center items-center w-full"
         >
-          {isLogin ? 'Login with Google' : 'Register with Google'}
+          <div>{isLogin ? 'Login with Google' : 'Register with Google'}</div>
+          <div className="bg-white rounded-full p-1 ml-3">
+            <FcGoogle />
+          </div>
         </button>
-        {authenticating && <Loading>Signing in...</Loading>}
       </div>
     </>
   );
