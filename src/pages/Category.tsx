@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { getProductsByCategory } from '../API/products';
 import { getCategory } from '../API/categories';
 import { ICategoryDocument, IProductDocument } from '../interfaces/product';
-import Loading from '../components/Loading';
+import Loading from '../components/UI/Loading';
 import CategoryPageDisplay from '../components/Category/CategoryPageDisplay';
 
 const Category = () => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ICategoryDocument } from '../../interfaces/product';
 import { getCategories } from '../../API/categories';
-import Loading from '../../components/Loading';
+import Loading from '../../components/UI/Loading';
 import CategoryTile from '../../components/Category/AdminCategoryTile';
 import CreateCategoryForm from '../../components/Category/AdminCreateCategoryForm';
 import UpdateCategoryForm from '../../components/Category/AdminUpdateCategoryForm';

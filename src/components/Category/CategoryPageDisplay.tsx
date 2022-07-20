@@ -1,6 +1,6 @@
 import React from 'react';
 import { IProductDocument } from '../../interfaces/product';
-import Loading from '../Loading';
+import Loading from '../UI/Loading';
 import ProductsList from '../Product/ProductsList';
 import PageHead from '../UI/PageHead';
 

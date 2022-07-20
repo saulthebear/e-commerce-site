@@ -2,7 +2,7 @@ import { AuthProvider } from 'firebase/auth';
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Error from '../components/Error';
-import Loading from '../components/Loading';
+import Loading from '../components/UI/Loading';
 import firebaseServices from '../config/firebase';
 import logging from '../config/logging';
 import UserContext from '../contexts/user';

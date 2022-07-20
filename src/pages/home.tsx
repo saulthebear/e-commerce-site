@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { getProducts } from '../API/products';
 import CategoryPageDisplay from '../components/Category/CategoryPageDisplay';
-import Loading from '../components/Loading';
+import Loading from '../components/UI/Loading';
 import IPage from '../interfaces/page';
 import { IProductDocument } from '../interfaces/product';
 

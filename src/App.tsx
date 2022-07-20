@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import AuthRoute from './components/AuthRoute';
-import Loading from './components/Loading';
+import Loading from './components/UI/Loading';
 import Navbar from './components/Navbar/Navbar';
 import logging from './config/logging';
 import routes from './config/routes';

@@ -9,7 +9,7 @@ import {
 import logging from '../../config/logging';
 import UserContext from '../../contexts/user';
 import { dbPriceToClientPriceString } from '../../utils/priceFunctions';
-import Loading from '../Loading';
+import Loading from '../UI/Loading';
 
 export interface ICartProps {
   isOpen: boolean;

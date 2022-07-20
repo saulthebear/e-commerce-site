@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getProducts } from '../../API/products';
-import Loading from '../../components/Loading';
+import Loading from '../../components/UI/Loading';
 import AdminProductCreateForm from '../../components/Product/AdminProductCreateForm';
 import AdminProductEditForm from '../../components/Product/AdminProductEditForm';
 import AdminProductTile from '../../components/Product/AdminProductTile';

@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import IPage from '../interfaces/page';
 import { IProductDocument, IReviewDocument } from '../interfaces/product';
 import { dbPriceToClientPriceString } from '../utils/priceFunctions';
-import Loading from '../components/Loading';
+import Loading from '../components/UI/Loading';
 import { getProduct } from '../API/products';
 import logging from '../config/logging';
 import { addItem } from '../API/cart';
