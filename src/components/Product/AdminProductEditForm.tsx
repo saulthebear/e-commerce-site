@@ -8,6 +8,13 @@ import {
   IProductBody,
   IProductDocument,
 } from '../../interfaces/product';
+import Button from '../UI/Button';
+import FormControl from '../UI/Form/FormControl';
+import FormHeading from '../UI/Form/Heading';
+import Input from '../UI/Form/Input';
+import Label from '../UI/Form/Label';
+import Select from '../UI/Form/Select';
+import Textarea from '../UI/Form/Textarea';
 
 interface IAdminProductEditFormProps {
   initialProduct: IProductDocument;
@@ -68,50 +75,50 @@ const AdminProductEditForm: React.FC<IAdminProductEditFormProps> = ({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-green-300">
-      <h1>Add a Product</h1>
-      <div>
-        <label>Title</label>
-        <input
+    <form onSubmit={handleSubmit} className="bg-slate-200 px-5 py-8 mb-5">
+      <FormHeading>Edit Product</FormHeading>
+      <FormControl>
+        <Label>Title</Label>
+        <Input
           type="text"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setTitle(e.target.value)
           }
           value={title}
         />
-      </div>
-      <div>
-        <label>Description</label>
-        <textarea
+      </FormControl>
+      <FormControl>
+        <Label>Description</Label>
+        <Textarea
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
             setDescription(e.target.value)
           }
           value={description}
         />
-      </div>
-      <div>
-        <label>Price</label>
-        <input
+      </FormControl>
+      <FormControl>
+        <Label>Price</Label>
+        <Input
           type="number"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setPrice(Number(e.target.value))
           }
           value={price}
         />
-      </div>
-      <div>
-        <label>Image URL</label>
-        <input
+      </FormControl>
+      <FormControl>
+        <Label>Image URL</Label>
+        <Input
           type="text"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setImageUrl(e.target.value)
           }
           value={imageUrl}
         />
-      </div>
-      <div>
-        <label>Categories</label>
-        <select
+      </FormControl>
+      <FormControl>
+        <Label>Categories</Label>
+        <Select
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
             setCategory(e.target.value)
           }
@@ -122,12 +129,23 @@ const AdminProductEditForm: React.FC<IAdminProductEditFormProps> = ({
               {category_option.title}
             </option>
           ))}
-        </select>
+        </Select>
+      </FormControl>
+      <div className="flex gap-x-5">
+        <Button
+          type="button"
+          onClick={() => setUpdatingProduct(null)}
+          className="border-2 border-orange-700 text-orange-700 hover:bg-orange-100 grow"
+        >
+          Cancel
+        </Button>
+        <Button
+          type="submit"
+          className="bg-emerald-700 text-white hover:bg-emerald-600 grow"
+        >
+          Submit
+        </Button>
       </div>
-      <button type="submit">Submit</button>
-      <button type="button" onClick={() => setUpdatingProduct(null)}>
-        Cancel
-      </button>
     </form>
   );
 };

@@ -45,6 +45,7 @@ function AdminProducts() {
             fetchProducts();
             setShowCreateForm(false);
           }}
+          closeForm={() => setShowCreateForm(false)}
         />
       )}
       {updatingProduct && (
@@ -58,12 +59,14 @@ function AdminProducts() {
         />
       )}
       <PageHead title="All Products">
-        <button
-          onClick={() => setShowCreateForm(!showCreateForm)}
-          className="uppercase bg-red-700 text-white py-1 px-3 rounded-full hover:bg-red-600"
-        >
-          {showCreateForm ? 'Cancel' : 'Create Product'}
-        </button>
+        {!showCreateForm && (
+          <button
+            onClick={() => setShowCreateForm(!showCreateForm)}
+            className="uppercase bg-red-700 text-white py-1 px-3 rounded-full hover:bg-red-600"
+          >
+            Create Product
+          </button>
+        )}
       </PageHead>
 
       {loading ? (
