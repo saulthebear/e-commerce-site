@@ -12,9 +12,11 @@ const CategoryTile: React.FC<ICategoryTile> = ({
   setUpdatingCategory,
 }) => {
   return (
-    <div className="flex flex-col justify-center items-center bg-slate-200 rounded-md">
+    <div className="flex flex-col justify-center items-center bg-slate-200 rounded-md p-5">
       <div className="p-3">
-        <h3 className="font-medium uppercase text-center">{category.title}</h3>
+        <h3 className="font-medium uppercase text-center mb-3">
+          {category.title}
+        </h3>
         <p className="text-center">{category.description}</p>
       </div>
       <Button
