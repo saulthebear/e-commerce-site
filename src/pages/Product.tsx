@@ -9,7 +9,8 @@ import { getProduct } from '../API/products';
 import logging from '../config/logging';
 import { addItem } from '../API/cart';
 import UserContext from '../contexts/user';
-
+import Button from '../components/UI/Button';
+import { MdAddShoppingCart } from 'react-icons/md';
 interface IReviewSummary {
   averageRating: number;
   totalReviews: number;
@@ -79,29 +80,42 @@ const ProductPage: React.FC<IPage> = () => {
   if (!id || !product) return <div>Product not found</div>;
 
   return (
-    <div className=" space-y-8 bg-fuchsia-400">
-      <div className="space-y-3 bg-green-300">
+    <div className="space-y-8">
+      <div className="space-y-3">
         <img
           src={product.image_url}
           alt={product.title}
-          className="aspect-square w-full p-5"
+          className="aspect-square w-full p-8"
         />
-        <div className="bg-purple-200 flex justify-between items-center">
-          <div className="flex flex-col">
+        <div className="flex flex-col justify-between items-center px-5">
+          <div className="flex flex-col items-center mb-5">
             <h1 className="text-3xl font-semibold">{product.title}</h1>
-            <p>{dbPriceToClientPriceString(product.price)}</p>
+            <p className="text-xl">
+              {dbPriceToClientPriceString(product.price)}
+            </p>
           </div>
           <Rating
             rating={reviewSummary.averageRating}
             count={reviewSummary.totalReviews}
           />
         </div>
-        <p>{product.description}</p>
-        <button onClick={handleAddToCart}>Add to cart</button>
+        <div className="p-5 space-y-5">
+          <p className="text-slate-700">{product.description}</p>
+          <Button
+            className="bg-sky-600 hover:bg-sky-700 text-white text-xl w-full"
+            onClick={handleAddToCart}
+            size="lg"
+          >
+            <div className="flex justify-center items-center">
+              <MdAddShoppingCart className=" mr-2" />
+              Add to cart
+            </div>
+          </Button>
+        </div>
       </div>
-      <div>
+      {/* <div>
         <h2>Reviews</h2>
-      </div>
+      </div> */}
     </div>
   );
 };
