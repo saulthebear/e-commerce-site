@@ -5,6 +5,8 @@ import Loading from '../../components/Loading';
 import CategoryTile from '../../components/Category/AdminCategoryTile';
 import CreateCategoryForm from '../../components/Category/AdminCreateCategoryForm';
 import UpdateCategoryForm from '../../components/Category/AdminUpdateCategoryForm';
+import PageHead from '../../components/UI/PageHead';
+import Button from '../../components/UI/Button';
 
 const AdminCategories = () => {
   const [categories, setCategories] = useState<ICategoryDocument[]>([]);
@@ -43,6 +45,7 @@ const AdminCategories = () => {
             fetchCategories();
             setShowCreateForm(false);
           }}
+          closeForm={() => setShowCreateForm(false)}
         />
       )}
       {updatingCategory && (
@@ -52,13 +55,20 @@ const AdminCategories = () => {
             setUpdatingCategory(null);
             fetchCategories();
           }}
+          setUpdatingCategory={setUpdatingCategory}
         />
       )}
       <div>
-        <h1>Categories</h1>
-        <button onClick={() => setShowCreateForm(!showCreateForm)}>
-          {showCreateForm ? 'Cancel' : 'Create Category'}
-        </button>
+        <PageHead title="All Categories">
+          {!showCreateForm && (
+            <Button
+              onClick={() => setShowCreateForm(!showCreateForm)}
+              className="bg-red-700 text-white hover:bg-red-600"
+            >
+              Create Category
+            </Button>
+          )}
+        </PageHead>
         {loading ? (
           <Loading>Loading Categories</Loading>
         ) : (

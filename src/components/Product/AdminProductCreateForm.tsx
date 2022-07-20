@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { getCategories } from '../../API/categories';
 import { createProduct } from '../../API/products';
-import logging from '../../config/logging';
 import UserContext from '../../contexts/user';
 import { ICategoryDocument, IProductBody } from '../../interfaces/product';
 import Button from '../UI/Button';

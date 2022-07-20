@@ -4,6 +4,7 @@ import Loading from '../../components/Loading';
 import AdminProductCreateForm from '../../components/Product/AdminProductCreateForm';
 import AdminProductEditForm from '../../components/Product/AdminProductEditForm';
 import AdminProductTile from '../../components/Product/AdminProductTile';
+import Button from '../../components/UI/Button';
 import PageHead from '../../components/UI/PageHead';
 import { IProductDocument } from '../../interfaces/product';
 
@@ -60,12 +61,12 @@ function AdminProducts() {
       )}
       <PageHead title="All Products">
         {!showCreateForm && (
-          <button
+          <Button
             onClick={() => setShowCreateForm(!showCreateForm)}
-            className="uppercase bg-red-700 text-white py-1 px-3 rounded-full hover:bg-red-600"
+            className=" bg-red-700 text-white hover:bg-red-600"
           >
             Create Product
-          </button>
+          </Button>
         )}
       </PageHead>
 

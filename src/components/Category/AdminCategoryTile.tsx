@@ -1,5 +1,6 @@
 import React from 'react';
 import { ICategoryDocument } from '../../interfaces/product';
+import Button from '../UI/Button';
 
 interface ICategoryTile {
   category: ICategoryDocument;
@@ -11,16 +12,19 @@ const CategoryTile: React.FC<ICategoryTile> = ({
   setUpdatingCategory,
 }) => {
   return (
-    <div className="bg-teal-500 p-3">
-      <h3>{category.title}</h3>
-      <p>{category.description}</p>
-      <button
+    <div className="flex flex-col justify-center items-center bg-slate-200 rounded-md">
+      <div className="p-3">
+        <h3 className="font-medium uppercase text-center">{category.title}</h3>
+        <p className="text-center">{category.description}</p>
+      </div>
+      <Button
         onClick={() => {
           setUpdatingCategory(category);
         }}
+        className="text-orange-700 hover:underline"
       >
         Edit
-      </button>
+      </Button>
     </div>
   );
 };

@@ -1,15 +1,22 @@
 import React, { useState, useContext } from 'react';
-import logging from '../../config/logging';
 import { ICategoryBody } from '../../interfaces/product';
 import { createCategory } from '../../API/categories';
 import UserContext from '../../contexts/user';
+import FormHeading from '../UI/Form/Heading';
+import FormControl from '../UI/Form/FormControl';
+import Label from '../UI/Form/Label';
+import Input from '../UI/Form/Input';
+import Textarea from '../UI/Form/Textarea';
+import Button from '../UI/Button';
 
 interface ICreateCategoryFormProps {
   afterSubmit: () => void;
+  closeForm: () => void;
 }
 
 const CreateCategoryForm: React.FC<ICreateCategoryFormProps> = ({
   afterSubmit,
+  closeForm,
 }) => {
   const [categoryName, setCategoryName] = useState('');
   const [categoryDescription, setCategoryDescription] = useState('');
@@ -28,28 +35,42 @@ const CreateCategoryForm: React.FC<ICreateCategoryFormProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-green-300">
-      <h1>Add a Category</h1>
-      <div>
-        <label>Name</label>
-        <input
+    <form onSubmit={handleSubmit} className="bg-slate-200 px-5 py-8 mb-5">
+      <FormHeading>Add a Category</FormHeading>
+      <FormControl>
+        <Label>Name</Label>
+        <Input
           type="text"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setCategoryName(e.target.value)
           }
           value={categoryName}
         />
-      </div>
-      <div>
-        <label>Description</label>
-        <textarea
+      </FormControl>
+      <FormControl>
+        <Label>Description</Label>
+        <Textarea
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
             setCategoryDescription(e.target.value)
           }
           value={categoryDescription}
         />
+      </FormControl>
+      <div className="flex gap-x-5">
+        <Button
+          type="button"
+          onClick={closeForm}
+          className="border-2 border-orange-700 text-orange-700 hover:bg-orange-100 grow"
+        >
+          Cancel
+        </Button>
+        <Button
+          type="submit"
+          className="bg-emerald-700 text-white hover:bg-emerald-600 grow"
+        >
+          Create
+        </Button>
       </div>
-      <button type="submit">Create</button>
     </form>
   );
 };
