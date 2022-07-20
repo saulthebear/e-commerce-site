@@ -1,12 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { getUserOrders } from '../API/orders';
 import PageHead from '../components/UI/PageHead';
 import UserContext from '../contexts/user';
 import { IOrderDocument } from '../interfaces/order';
-import { formatDate } from '../utils/dateFunctions';
-import { dbPriceToClientPriceString } from '../utils/priceFunctions';
-import { MdNavigateNext } from 'react-icons/md';
+import OrderSummary from '../components/Order/OrderSummary';
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState<IOrderDocument[]>([]);
@@ -24,31 +21,7 @@ const OrdersPage = () => {
   }, []);
 
   const renderedOrders = orders.map((order) => {
-    return (
-      <div key={order._id} className="bg-slate-200 p-5 rounded-md">
-        <h3 className="font-medium">{formatDate(new Date(order.createdAt))}</h3>
-        <ul className="ml-5 pl-5 list-disc">
-          {order.products.map((item, index) => {
-            return (
-              <li key={`order-item-${index} -${item.product._id}`}>
-                <div>
-                  <span className="font-medium">{item.product.title}</span> -{' '}
-                  {dbPriceToClientPriceString(item.price)} x{item.quantity}
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-        <div className="mt-5">
-          <Link
-            to={`/orders/${order._id}`}
-            className="hover:border-b-2 border-orange-700 uppercase px-3 py-1 text-sm font-medium text-orange-700 flex w-fit"
-          >
-            Details <MdNavigateNext className="fill-orange-700 text-2xl" />
-          </Link>
-        </div>
-      </div>
-    );
+    return <OrderSummary key={order._id} order={order} />;
   });
 
   return (

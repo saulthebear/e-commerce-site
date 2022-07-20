@@ -1,9 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getOrders } from '../../API/orders';
+import OrderSummary from '../../components/Order/OrderSummary';
+import PageHead from '../../components/UI/PageHead';
 import UserContext from '../../contexts/user';
 import { IOrderDocument } from '../../interfaces/order';
-import { dbPriceToClientPriceString } from '../../utils/priceFunctions';
 
 const AdminDashboard = () => {
   const [orders, setOrders] = React.useState<IOrderDocument[]>([]);
@@ -24,35 +25,22 @@ const AdminDashboard = () => {
   }, []);
 
   const ordersList = orders.map((order, index) => {
-    return (
-      <div key={index}>
-        <h3>{`${order.createdAt}`}</h3>
-        <ul>
-          {order.products.map((item, index) => {
-            return (
-              <li key={`order-item-${index} -${item.product._id}`}>
-                <div>{item.product.title}</div>
-                <div>
-                  {dbPriceToClientPriceString(item.price)} x{item.quantity}
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-        <Link to={`/orders/${order._id}`}>Details</Link>
-      </div>
-    );
+    return <OrderSummary key={index} order={order} />;
   });
 
   return (
     <div>
-      <h1>Admin Dashboard</h1>
+      <PageHead title="Admin Dashboard">
+        <Link to="/admin/products">Products</Link>
+        <Link to="/admin/categories">Categories</Link>
+      </PageHead>
 
-      <Link to="/admin/products">Products</Link>
-      <Link to="/admin/categories">Categories</Link>
-
-      <h2>Orders</h2>
-      {loading ? <p>Loading...</p> : ordersList}
+      <h2 className="w-full text-center font-medium text-2xl mb-5">
+        All Orders
+      </h2>
+      <div className="flex flex-col gap-5">
+        {loading ? <p>Loading...</p> : ordersList}
+      </div>
     </div>
   );
 };
