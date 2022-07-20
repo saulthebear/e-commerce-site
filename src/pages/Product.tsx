@@ -89,8 +89,10 @@ const ProductPage: React.FC<IPage> = () => {
         />
         <div className="flex flex-col justify-between items-center px-5">
           <div className="flex flex-col items-center mb-5">
-            <h1 className="text-3xl font-semibold">{product.title}</h1>
-            <p className="text-xl">
+            <h1 className="text-3xl font-semibold w-full text-center">
+              {product.title}
+            </h1>
+            <p className="text-xl w-full text-center">
               {dbPriceToClientPriceString(product.price)}
             </p>
           </div>
