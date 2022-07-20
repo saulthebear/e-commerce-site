@@ -65,7 +65,9 @@ const Sidebar: React.FC<ISidebarProps> = ({
         <div className="mt-10 space-y-3 flex flex-col text-xl text-slate-600">
           {isLoggedIn ? (
             <>
-              <Link to="/orders">My Orders</Link>
+              <Link to="/orders" className="w-full text-center">
+                My Orders
+              </Link>
               <button onClick={() => logout()}>Logout</button>
             </>
           ) : (
