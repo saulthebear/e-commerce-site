@@ -35,7 +35,7 @@ const Category = () => {
     return <Loading>Loading Category...</Loading>;
   } else {
     if (!category) {
-      return <div>Category not found</div>;
+      return <div className="w-full text-center">Category not found</div>;
     }
   }
 

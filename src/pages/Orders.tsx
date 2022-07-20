@@ -54,7 +54,11 @@ const OrdersPage = () => {
   return (
     <div>
       <PageHead title="Your Orders" />
-      {orders.length <= 0 && <p>You have no orders</p>}
+      {orders.length <= 0 && (
+        <p className="w-full text-center">
+          You don&apos;t have any orders yet.
+        </p>
+      )}
       <div className="flex flex-col gap-5">{renderedOrders}</div>
     </div>
   );

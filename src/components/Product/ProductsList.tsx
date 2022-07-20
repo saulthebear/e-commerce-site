@@ -15,7 +15,7 @@ const ProductsList: React.FC<{ products: IProductDocument[] }> = ({
   });
 
   if (productList.length === 0) {
-    return <div>No products found</div>;
+    return <div className="w-full text-center">No products found.</div>;
   }
 
   return <div className="grid grid-cols-2 gap-5">{productList}</div>;
