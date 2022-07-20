@@ -29,7 +29,7 @@ const HomePage: React.FC<IPage> = () => {
   return (
     <CategoryPageDisplay
       title="All Products"
-      description=""
+      description="This is everything we’ve got. If you want to buy it all, we definitely won’t stop you."
       products={products}
       isLoading={loading}
     />
