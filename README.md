@@ -2,9 +2,9 @@
 
 MarketPlace is an e-commerce website allowing users to browse for goods, add
 items to a cart, and checkout. Users are able to securely login with a Google
-account, and their cart is saved so that they can continue shopping later on any
+account, and their cart is saved so that they can continue shopping on any
 device without losing their cart. Checkout is handled by Stripe, allowing users
-to pay for their cart with a credit card.
+to pay for their order with a credit card.
 
 <p align="center">
   <img src="./screenshots/home.png" alt="MarketPlace Home Page" width="250">
@@ -15,28 +15,28 @@ to pay for their cart with a credit card.
     <b>More screenshots</b>
   </summary>
   <div align="center">
-    <img src="./screenshots/product-page.png" alt="Cart" width="250">
-    <img src="./screenshots/cart.png" alt="Cart" width="250">
-    <img src="./screenshots/sidebar.png" alt="Cart" width="250">
-    <img src="./screenshots/login.png" alt="Cart" width="250">
-    <img src="./screenshots/order-detail.png" alt="Cart" width="250">
-    <img src="./screenshots/create-product.png" alt="Cart" width="250">
-    <img src="./screenshots/edit-category.png" alt="Cart" width="250">
+    <img src="./screenshots/product-page.png" alt="Product Page" width="250">
+    <img src="./screenshots/cart.png" alt="Cart with one item" width="250">
+    <img src="./screenshots/sidebar.png" alt="Sidebar Menu with links to categories" width="250">
+    <img src="./screenshots/login.png" alt="Login with Google page" width="250">
+    <img src="./screenshots/order-detail.png" alt="Order details" width="250">
+    <img src="./screenshots/create-product.png" alt="Admin page for creating a new product" width="250">
+    <img src="./screenshots/edit-category.png" alt="Admin page for editing a category" width="250">
   </div>
 </details>
 
 ## Overview
 
-This project was a learning opportunity for me to learn a new language
-(TypeScript), and practice integrating with third-party APIs (Firebase Auth &
-Stripe).
+This project was a learning opportunity for me to tackle a new language
+(TypeScript), practice integrating with third-party APIs (Firebase Auth &
+Stripe), and practice using the Jest testing framework.
 
 ### **Hurdles**
 
 A large portion of the six days devoted to this project were spent learning
 TypeScript, and practicing testing with Jest. Though a lot of what I learned
 during this project didn't make it into the final product due to the time
-constraints, I'm proud to have been able to completed a functional application
+constraints, I'm proud to have completed a functional application
 in a short amount of time.
 
 Learning TypeScript was a challenge, even given my familiarity with JavaScript.
@@ -51,18 +51,18 @@ translate those into TypeScript and debug when I ran into type-checking issues.
   product page, but I didn't have time to implement review creation on the
   frontend.
 - While I did learn Jest and Storybook, I didn't have time to meaningfully test
-  the application.
-- I didn't integrate Twillio with the application to send notifications to users
+  the application. Most of the UI components have Storybook stories, but the other components do not.
+- I didn't integrate Twillio with the application to send notifications to users.
 
 ## Technology
 
 - New technologies:
   - **TypeScript** for both front-end and back-end.
   - **Jest** for testing.
-  - **Storybook** for visual testing.
+  - **Storybook** for visual / UI testing.
 - APIs:
   - **Stripe** for payment processing.
-  - **Firebase Auth** for user authentication.
+  - **Firebase Auth** for user authentication (Sign in with Google).
 - Familiar technology
   - MongoDb
   - Express
