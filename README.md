@@ -98,10 +98,12 @@ translate those into TypeScript and debug when I ran into type-checking issues.
 
 ## Wireframes
 
-<img src="./screenshots/wireframes/products.png" alt="Products Page (home)" width="188">
-<img src="./screenshots/wireframes/menu.png" alt="Navigation" width="188">
-<img src="./screenshots/wireframes/cart.png" alt="Cart" width="188">
-<img src="./screenshots/wireframes/product.png" alt="Product Page" width="188">
+<div align="center">
+  <img src="./screenshots/wireframes/products.png" alt="Products Page (home)" width="188">
+  <img src="./screenshots/wireframes/menu.png" alt="Navigation" width="188">
+  <img src="./screenshots/wireframes/cart.png" alt="Cart" width="188">
+  <img src="./screenshots/wireframes/product.png" alt="Product Page" width="188">
+</div>
 
 <!-- ![Products Page (home)](./screenshots/wireframes/products.png)
 ![Navigation](./screenshots/wireframes/menu.png)
