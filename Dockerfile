@@ -23,14 +23,14 @@ ENV REACT_APP_FIREBASE_MEASUREMENT_ID=$REACT_APP_FIREBASE_MEASUREMENT_ID
 ENV REACT_APP_SERVER_URL=$REACT_APP_SERVER_URL
 
 # Copy package files
-COPY package*.json ./
-RUN npm ci
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
 
 # Copy application code
 COPY . .
 
 # Build the React app (outputs to build/)
-RUN npm run build
+RUN yarn build
 
 # Production stage - serve with nginx
 FROM nginx:alpine
