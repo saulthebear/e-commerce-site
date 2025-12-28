@@ -1,7 +1,10 @@
 import config from '../config/config';
 import { IProductBody } from '../interfaces/product';
 
-export const createProduct = async (body: IProductBody, token: string) => {
+export const createProduct = async (
+  body: IProductBody,
+  token: string
+): Promise<IProductBody> => {
   const response = await fetch(`${config.server.url}/products`, {
     method: 'POST',
     headers: {

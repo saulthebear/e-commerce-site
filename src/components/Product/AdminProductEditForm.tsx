@@ -89,7 +89,7 @@ const AdminProductEditForm: React.FC<IAdminProductEditFormProps> = ({
 
       await updateProduct(initialProduct._id, body, fire_token);
       afterSubmit();
-    } catch (err) {
+    } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Failed to update product');
     } finally {
       setSubmitting(false);

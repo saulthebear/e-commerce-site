@@ -25,7 +25,9 @@ const AdminProductCreateForm: React.FC<IAdminProductCreateForm> = ({
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState(0);
   const [imageUrl, setImageUrl] = useState('');
-  const [imageType, setImageType] = useState<'internal' | 'external'>('internal');
+  const [imageType, setImageType] = useState<'internal' | 'external'>(
+    'internal'
+  );
   const [category, setCategory] = useState('');
 
   const [categories, setCategories] = useState<ICategoryDocument[]>([]);
@@ -54,9 +56,10 @@ const AdminProductCreateForm: React.FC<IAdminProductCreateForm> = ({
     setSubmitting(true);
 
     try {
-      const finalImageUrl = imageType === 'internal'
-        ? `${process.env.PUBLIC_URL}/${imageUrl.replace(/^\//, '')}`
-        : imageUrl;
+      const finalImageUrl =
+        imageType === 'internal'
+          ? `${process.env.PUBLIC_URL}/${imageUrl.replace(/^\//, '')}`
+          : imageUrl;
 
       const body: IProductBody = {
         title,
@@ -69,7 +72,7 @@ const AdminProductCreateForm: React.FC<IAdminProductCreateForm> = ({
 
       await createProduct(body, fire_token);
       afterSubmit();
-    } catch (err) {
+    } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Failed to create product');
     } finally {
       setSubmitting(false);
@@ -159,7 +162,8 @@ const AdminProductCreateForm: React.FC<IAdminProductCreateForm> = ({
           />
           {imageType === 'internal' && (
             <p className="text-xs text-slate-600">
-              Enter path relative to public/ folder (e.g., images/products/your-image.jpg)
+              Enter path relative to public/ folder (e.g.,
+              images/products/your-image.jpg)
             </p>
           )}
         </div>
