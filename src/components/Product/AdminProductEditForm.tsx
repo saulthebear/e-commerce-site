@@ -27,10 +27,20 @@ const AdminProductEditForm: React.FC<IAdminProductEditFormProps> = ({
   afterSubmit,
   setUpdatingProduct,
 }) => {
+  // Detect if the image is internal (starts with PUBLIC_URL) or external
+  const publicUrl = process.env.PUBLIC_URL || '';
+  const isInternalImage = publicUrl && initialProduct.image_url.startsWith(publicUrl);
+  const initialImageUrl = isInternalImage
+    ? initialProduct.image_url.replace(publicUrl, '').replace(/^\//, '')
+    : initialProduct.image_url;
+
   const [title, setTitle] = useState(initialProduct.title);
   const [description, setDescription] = useState(initialProduct.description);
   const [price, setPrice] = useState(initialProduct.price);
-  const [imageUrl, setImageUrl] = useState(initialProduct.image_url);
+  const [imageUrl, setImageUrl] = useState(initialImageUrl);
+  const [imageType, setImageType] = useState<'internal' | 'external'>(
+    isInternalImage ? 'internal' : 'external'
+  );
   const [category, setCategory] = useState(initialProduct.category);
 
   const [categories, setCategories] = useState<ICategoryDocument[]>([]);
@@ -57,11 +67,15 @@ const AdminProductEditForm: React.FC<IAdminProductEditFormProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const finalImageUrl = imageType === 'internal'
+      ? `${process.env.PUBLIC_URL}/${imageUrl.replace(/^\//, '')}`
+      : imageUrl;
+
     const body: IProductBody = {
       title,
       description,
       price,
-      image_url: imageUrl,
+      image_url: finalImageUrl,
       category,
       reviews: [],
     };
@@ -107,14 +121,50 @@ const AdminProductEditForm: React.FC<IAdminProductEditFormProps> = ({
         />
       </FormControl>
       <FormControl>
-        <Label>Image URL</Label>
-        <Input
-          type="text"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setImageUrl(e.target.value)
-          }
-          value={imageUrl}
-        />
+        <Label>Image</Label>
+        <div className="space-y-2">
+          <div className="flex gap-x-4">
+            <label className="flex items-center gap-x-2">
+              <input
+                type="radio"
+                name="imageType"
+                value="internal"
+                checked={imageType === 'internal'}
+                onChange={(e) => setImageType('internal')}
+                className="w-4 h-4"
+              />
+              <span className="text-sm">Internal (hosted locally)</span>
+            </label>
+            <label className="flex items-center gap-x-2">
+              <input
+                type="radio"
+                name="imageType"
+                value="external"
+                checked={imageType === 'external'}
+                onChange={(e) => setImageType('external')}
+                className="w-4 h-4"
+              />
+              <span className="text-sm">External URL</span>
+            </label>
+          </div>
+          <Input
+            type="text"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setImageUrl(e.target.value)
+            }
+            value={imageUrl}
+            placeholder={
+              imageType === 'internal'
+                ? 'images/products/coffee-mug.jpg'
+                : 'https://example.com/image.jpg'
+            }
+          />
+          {imageType === 'internal' && (
+            <p className="text-xs text-slate-600">
+              Enter path relative to public/ folder (e.g., images/products/your-image.jpg)
+            </p>
+          )}
+        </div>
       </FormControl>
       <FormControl>
         <Label>Categories</Label>

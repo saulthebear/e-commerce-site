@@ -24,6 +24,7 @@ const AdminProductCreateForm: React.FC<IAdminProductCreateForm> = ({
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState(0);
   const [imageUrl, setImageUrl] = useState('');
+  const [imageType, setImageType] = useState<'internal' | 'external'>('internal');
   const [category, setCategory] = useState('');
 
   const [categories, setCategories] = useState<ICategoryDocument[]>([]);
@@ -46,11 +47,15 @@ const AdminProductCreateForm: React.FC<IAdminProductCreateForm> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const finalImageUrl = imageType === 'internal'
+      ? `${process.env.PUBLIC_URL}/${imageUrl.replace(/^\//, '')}`
+      : imageUrl;
+
     const body: IProductBody = {
       title,
       description,
       price,
-      image_url: imageUrl,
+      image_url: finalImageUrl,
       category,
       reviews: [],
     };
@@ -96,15 +101,51 @@ const AdminProductCreateForm: React.FC<IAdminProductCreateForm> = ({
         />
       </FormControl>
       <FormControl>
-        <Label>Image URL</Label>
-        <Input
-          type="text"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setImageUrl(e.target.value)
-          }
-          value={imageUrl}
-          className="border-2 border-slate-200 p-2 w-full rounded-md"
-        />
+        <Label>Image</Label>
+        <div className="space-y-2">
+          <div className="flex gap-x-4">
+            <label className="flex items-center gap-x-2">
+              <input
+                type="radio"
+                name="imageType"
+                value="internal"
+                checked={imageType === 'internal'}
+                onChange={(e) => setImageType('internal')}
+                className="w-4 h-4"
+              />
+              <span className="text-sm">Internal (hosted locally)</span>
+            </label>
+            <label className="flex items-center gap-x-2">
+              <input
+                type="radio"
+                name="imageType"
+                value="external"
+                checked={imageType === 'external'}
+                onChange={(e) => setImageType('external')}
+                className="w-4 h-4"
+              />
+              <span className="text-sm">External URL</span>
+            </label>
+          </div>
+          <Input
+            type="text"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setImageUrl(e.target.value)
+            }
+            value={imageUrl}
+            placeholder={
+              imageType === 'internal'
+                ? 'images/products/coffee-mug.jpg'
+                : 'https://example.com/image.jpg'
+            }
+            className="border-2 border-slate-200 p-2 w-full rounded-md"
+          />
+          {imageType === 'internal' && (
+            <p className="text-xs text-slate-600">
+              Enter path relative to public/ folder (e.g., images/products/your-image.jpg)
+            </p>
+          )}
+        </div>
       </FormControl>
       <FormControl>
         <Label>Categories</Label>
