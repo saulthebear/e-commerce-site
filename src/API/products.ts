@@ -10,6 +10,12 @@ export const createProduct = async (body: IProductBody, token: string) => {
     },
     body: JSON.stringify(body),
   });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || `HTTP error ${response.status}`);
+  }
+
   return response.json();
 };
 
@@ -43,6 +49,12 @@ export const updateProduct = async (
     },
     body: JSON.stringify(body),
   });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || `HTTP error ${response.status}`);
+  }
+
   return response.json();
 };
 

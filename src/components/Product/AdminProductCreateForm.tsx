@@ -4,6 +4,7 @@ import { createProduct } from '../../API/products';
 import UserContext from '../../contexts/user';
 import { ICategoryDocument, IProductBody } from '../../interfaces/product';
 import Button from '../UI/Button';
+import Error from '../Error';
 import FormControl from '../UI/Form/FormControl';
 import FormHeading from '../UI/Form/Heading';
 import Input from '../UI/Form/Input';
@@ -29,6 +30,8 @@ const AdminProductCreateForm: React.FC<IAdminProductCreateForm> = ({
 
   const [categories, setCategories] = useState<ICategoryDocument[]>([]);
   const [loadingCategories, setLoadingCategories] = useState(false);
+  const [error, setError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   const { userState } = useContext(UserContext);
   const { fire_token } = userState;
@@ -47,21 +50,30 @@ const AdminProductCreateForm: React.FC<IAdminProductCreateForm> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const finalImageUrl = imageType === 'internal'
-      ? `${process.env.PUBLIC_URL}/${imageUrl.replace(/^\//, '')}`
-      : imageUrl;
+    setError('');
+    setSubmitting(true);
 
-    const body: IProductBody = {
-      title,
-      description,
-      price,
-      image_url: finalImageUrl,
-      category,
-      reviews: [],
-    };
+    try {
+      const finalImageUrl = imageType === 'internal'
+        ? `${process.env.PUBLIC_URL}/${imageUrl.replace(/^\//, '')}`
+        : imageUrl;
 
-    await createProduct(body, fire_token);
-    afterSubmit();
+      const body: IProductBody = {
+        title,
+        description,
+        price,
+        image_url: finalImageUrl,
+        category,
+        reviews: [],
+      };
+
+      await createProduct(body, fire_token);
+      afterSubmit();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to create product');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (loadingCategories) {
@@ -71,6 +83,11 @@ const AdminProductCreateForm: React.FC<IAdminProductCreateForm> = ({
   return (
     <form onSubmit={handleSubmit} className="bg-slate-200 px-5 py-8 mb-5">
       <FormHeading>Add a Product</FormHeading>
+      {error && (
+        <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+          <Error error={error} />
+        </div>
+      )}
       <FormControl>
         <Label>Title</Label>
         <Input
@@ -166,15 +183,17 @@ const AdminProductCreateForm: React.FC<IAdminProductCreateForm> = ({
         <Button
           type="button"
           onClick={closeForm}
-          className="border-2 border-orange-700 text-orange-700 hover:bg-orange-100 grow"
+          disabled={submitting}
+          className="border-2 border-orange-700 text-orange-700 hover:bg-orange-100 grow disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Cancel
         </Button>
         <Button
           type="submit"
-          className="bg-emerald-700 text-white hover:bg-emerald-600 grow"
+          disabled={submitting}
+          className="bg-emerald-700 text-white hover:bg-emerald-600 grow disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Create
+          {submitting ? 'Creating...' : 'Create'}
         </Button>
       </div>
     </form>
