@@ -15,8 +15,11 @@ const providers = {
 
 // Initialize Firebase Auth and get a reference to the auth service
 const auth = getAuth(firebaseApp);
-// TODO: Remove this line for production
-connectAuthEmulator(auth, 'http://localhost:9099');
+
+// Only use auth emulator in development
+if (process.env.NODE_ENV === 'development') {
+  connectAuthEmulator(auth, 'http://localhost:9099');
+}
 
 const firebaseServices = {
   firebaseApp,
